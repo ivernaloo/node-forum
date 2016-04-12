@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+.idea
+*.iml
+out
+gen
+target
+node_modules
