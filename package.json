@@ -1,0 +1,31 @@
+{
+  "name": "node-forum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm run clean && babel src -d target --watch",
+    "compile": "babel src -d target",
+    "clean": "rm -Rf target",
+    "dev": "set NODE_ENV=dev && node target/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivernaloo/node-forum.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivernaloo/node-forum/issues"
+  },
+  "homepage": "https://github.com/ivernaloo/node-forum#readme",
+  "dependencies": {
+    "project-core": "^0.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-preset-es2015-node4": "^2.1.0",
+    "babel-preset-stage-0": "^6.5.0"
+  }
+}
