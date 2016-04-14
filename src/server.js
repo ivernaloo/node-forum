@@ -16,6 +16,7 @@ $.init.add((done) => {
 });
 
 $.init.load(path.resolve(__dirname, 'init', 'mongodb.js'))
+$.init.load(path.resolve(__dirname, 'models'));
 
 $.init((err) => {
     if (err){
@@ -25,3 +26,4 @@ $.init((err) => {
         console.log('inited [env=%s]',$.env);
     }
 })
+
