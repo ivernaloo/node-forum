@@ -2,13 +2,13 @@
 
 import path from 'path';
 import ProjectCore from 'project-core';
-import createDebug from 'debug';
+import Debug from 'debug';
 
 const $ = global.$ = new ProjectCore();
 
 // 创建Debug函数
 $.createDebug = function (name) {
-    return createDebug('my:' + name);
+    return Debug('my:' + name);
 };
 const debug = $.createDebug('server');
 
@@ -24,6 +24,8 @@ $.init.add((done) => {
 
 $.init.load(path.resolve(__dirname, 'init', 'mongodb.js'))
 $.init.load(path.resolve(__dirname, 'models'));
+$.init.load(path.resolve(__dirname, 'init', 'express.js'));
+$.init.load(path.resolve(__dirname, 'routes'));
 
 $.init((err) => {
     if (err){
@@ -32,5 +34,8 @@ $.init((err) => {
     } else {
         console.log('inited [env=%s]',$.env);
     }
-})
+
+
+});
+
 
