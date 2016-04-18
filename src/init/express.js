@@ -5,6 +5,7 @@ import path from 'path';
 import express from 'express';
 import serveStatic from 'serve-static';
 import bodyParser from 'body-parser';
+import multipart from 'connect-multiparty';
 
 module.exports = function(done){
 
@@ -15,6 +16,7 @@ module.exports = function(done){
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
+    app.use(multipart());
 
     const router = express.Router();
     $.router = router;
