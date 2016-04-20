@@ -9,8 +9,8 @@ module.exports = function (done) {
         debug("get a request from topic add")
         req.body.authorId = req.session.user._id;
 
-        if('tag' in req.body){
-            req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v);
+        if('tags' in req.body){ // 过滤tags标签
+            req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v); // 这里是处理把array变成string
         }
         const topic = await $.method('topic.add').call(req.body)
 
