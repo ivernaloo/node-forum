@@ -12,11 +12,7 @@ module.exports = function (done) {
         if('tag' in req.body){
             req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v);
         }
-        try {
-            const topic = await $.method('topic.add').call(req.body)
-        } catch (err) {
-            console.log(err);
-        }
+        const topic = await $.method('topic.add').call(req.body)
 
         res.json({success: true, topic})
     });

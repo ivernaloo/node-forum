@@ -18,7 +18,6 @@ module.exports = function(done){
 
         const topic = new $.model.Topic(params);
         topic.createdAt = new Date();
-
         return topic.save();
     });
 
