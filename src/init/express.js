@@ -23,12 +23,24 @@ module.exports = function(done){
     }))
 
     const router = express.Router();
-    $.router = router;
+    const routerWrap = {};
+    ['get', 'head', 'post', 'put', 'del', 'delete'].forEach(method => {
+        routerWrap[method] = function (path, ...fnList) {
+            fnList = fnList.map(fn => {
+                return function (req, res, next) {
+                    const ret = fn(req, res, next);
+                    if (ret && ret.catch) ret.catch(next);
+                };
+            });
+            router[method](path, ...fnList);
+        };
+    });
+    $.router = routerWrap;
 
     app.use(router);
     app.use('/static', serveStatic(path.resolve(__dirname, '../../static')));
 
-    app.use('/api', function (err, req, res, next) {
+    app.use('/api', function (err, req, res, next) {  // 这里封装了所有的末定义的错误，从这里输出
         debug('API error: %s', err && err.stack || err);
         res.json({error: err.toString()});
     });
