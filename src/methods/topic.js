@@ -11,6 +11,7 @@ module.exports = function(done){
     $.method('topic.add').check({
         authorId: { required: true, validate: (v) => validator.isMongoId(String(v))},
         title: {required: true},
+
         content: {required: true},
         tags: {validate: (v) => Array.isArray(v)}
     });
@@ -51,8 +52,8 @@ module.exports = function(done){
             lastCommentedAt: 1
         });
 
-        if (params.skip) ret.skip(params.skip);
-        if (params.limit) ret.skip(params.skip);
+        if (params.skip) ret.skip(Number(params.skip));
+        if (params.limit) ret.limit(Number(params.limit))
 
         return ret;
     })
