@@ -2,8 +2,7 @@
 
 module.exports = function (done) {
 
-    const debug = $.createDebug('init:routes:topic');
-    debug("init the topic routes");
+    const debug = $.createDebug('routes:topic');
 
     $.router.post('/api/topic/add', $.checkLogin, async function(req, res, next){
         debug("get a request from topic add")
@@ -29,6 +28,7 @@ module.exports = function (done) {
         res.apiSuccess({list});
     });
 
+    // item get
     $.router.get('/api/topic/item/:topic_id', async function(req, res, next){
 
         const topic = await $.method('topic.get').call({_id: req.params.topic_id});
@@ -38,6 +38,7 @@ module.exports = function (done) {
 
     });
 
+    // item  update
     $.router.post('/api/topic/item/:topic_id', $.checkLogin, $.checkTopicAuthor, async function (req, res, next) {
         req.body._id = req.params.topic_id;
 
@@ -57,6 +58,27 @@ module.exports = function (done) {
         res.apiSuccess({topic});
     })
 
+    $.router.post('/api/topic/item/:topic_id/comment/add',$.checkLogin, async function(req, res, next){
 
+        req.body._id = req.params.topic_id;
+        req.body.authorId = req.session.user._id;
+        const comment = await $.method('topic.comment.add').call(req.body);
+
+        res.apiSuccess({comment});
+    })
+
+    $.router.post('/api/topic/item/:topic_id/comment/delete',$.checkLogin, async function(req, res, next){
+
+        req.body._id = req.params.topic_id;
+        req.body.authorId = req.session.user._id;
+        const comment = await $.method('topic.comment.get').call({
+            _id: req.params.topic_id,
+            cid: req.body.cid
+        });
+        // const comment = await $.method('topic.delete').call(req.body);
+
+        res.apiSuccess({comment});
+    })
+    
     done();
 };
