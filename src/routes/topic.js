@@ -36,6 +36,25 @@ module.exports = function (done) {
 
         res.apiSuccess({topic});
 
+    });
+
+    $.router.post('/api/topic/item/:topic_id', $.checkLogin, $.checkTopicAuthor, async function (req, res, next) {
+        req.body._id = req.params.topic_id;
+
+        if('tags' in req.body){ // 过滤tags标签
+            req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v); // 这里是处理把array变成string
+        }
+        await $.method('topic.update').call(req.body);
+
+        const topic = await $.method('topic.get').call({_id: req.params.topic_id});
+
+        res.apiSuccess({topic});
+    });
+
+    $.router.delete('/api/topic/item/:topic_id',$.checkLogin, $.checkTopicAuthor, async function(req, res, next){
+        const topic = await $.method('topic.delete').call({_id: req.params.topic_id});
+
+        res.apiSuccess({topic});
     })
 
 

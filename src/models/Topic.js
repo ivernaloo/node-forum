@@ -12,14 +12,14 @@ module.exports = function(done){
         title: {type: String, trim: true},
         content: {type: String},
         tags: [{type: String, index: true}],
-        createAt: {type: Date, index: true},
-        updateAt: {type: Date, index: true},
+        createdAt: {type: Date, index: true},
+        updatedAt: {type: Date, index: true},
         lastCommentedAt: {type: Date, index: true},
         comments: [{
             cid: ObjectId,
             authorId: ObjectId,
             content: String,
-            createAt: Date
+            createdAt: Date
         }]
     })
 

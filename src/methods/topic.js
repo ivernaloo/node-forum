@@ -56,7 +56,31 @@ module.exports = function(done){
         if (params.limit) ret.limit(Number(params.limit))
 
         return ret;
+    });
+
+    $.method('topic.delete').check({
+        _id: {validate: (v) => validator.isMongoId(String(v))},
+    });
+
+    $.method('topic.delete').register(async function (params){
+        return $.model.Topic.remove({_id: params._id});
+    });
+
+    $.method('topic.update').check({
+        _id: {required: true, validate: (v) => validator.isMongoId(v)},
+        tags: {validate: (v) => Array.isArray(v)},
+    });
+    $.method('topic.update').register(async function(params){
+
+        const update = {updatedAt: new Date()};
+        if (params.title) update.title = params.title;
+        if(params.content) update.content = params.content;
+        if(params.tags) update.tags = params.tags;
+
+        return $.model.Topic.update({_id: params._id},{$set: update});
     })
+
+
 
     done();
 };                                                                     
