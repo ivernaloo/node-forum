@@ -21,7 +21,7 @@ module.exports = function(done){
         req.session.user = user;
         req.session.logout_token = $.utils.randomString(20);
 
-        res.apiSuccess({success: true, token: req.session.logout_token});
+        res.apiSuccess({token: req.session.logout_token});
 
     });
 
@@ -33,7 +33,7 @@ module.exports = function(done){
         delete  req.session.user;
         delete req.session.logout_token;
 
-        res.apiSuccess({success: true});
+        res.apiSuccess();
     });
 
     $.router.post('/api/signup', async function(req, res, next){
