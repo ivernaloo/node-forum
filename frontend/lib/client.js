@@ -1,13 +1,13 @@
 import browserRequest from 'browser-request'
 
-const urlBase = '/api/';
+const urlBase = '/api';
 
 export function request(method, path, data){
     return new Promise((resolve, reject) => {
         method = method.toUpperCase();
         const options = {
             method,
-            url: '${urlBase}/${path}',
+            url: `${urlBase}/${path}`,
         };
         if (method == 'GET' || method == 'HEAD') {
             options.qs = data;
@@ -24,8 +24,17 @@ export function request(method, path, data){
                 } catch (err){
                     return reject(new Error('parse JSON data error: ' + err.message));
                 }
+                if (data.error){
+                    reject(data.error);
+                } else {
+                    resolve(data.result);
+                }
             }
         })
     })
 
+}
+
+export  function getTopicList(options){
+    return request('get', 'topic/list', {});
 }
