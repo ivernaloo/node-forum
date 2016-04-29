@@ -1,9 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {getTopicList} from './lib/client';
 
 export default class TopicList extends React.Component {
 
-    // const state = {};
+    constructor(props){
+        super(props);
+        this.state = {}
+    }
 
     componentDidMount() {
         getTopicList({})
@@ -15,10 +19,10 @@ export default class TopicList extends React.Component {
         const list = Array.isArray(this.state.list) ? this.state.list : [];
         return (
             <div>
-                <ul class="list-group">
+                <ul className="list-group">
                     {list.map((item, i) => {
                         return (
-                            <li class="list-group-item">Cras justo odio</li>
+                            <Link to={`/topic/${item._id}`} className="list-group-item" key={i}>{item.title}</Link>
                         )
                     })}
                 </ul>
