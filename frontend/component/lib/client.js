@@ -38,3 +38,7 @@ export function request(method, path, data){
 export  function getTopicList(options){
     return request('get', 'topic/list', {});
 }
+
+export function getTopicDetail(id) {
+    return request('get', `topic/item/${id}`).then(ret => ret.topic);
+}

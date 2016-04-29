@@ -1,10 +1,16 @@
 import React from 'react';
+import Header from './component/Header';
+import Footer from './component/Footer';
+import TopicDetail from './component/TopicDetail';
+import TopicList from './component/TopicList';
 
 export default class App extends React.Component {
     render() {
         return (
             <div>
-                <h1>~~1231231312312312313~~</h1>
+                <Header/>
+                <TopicDetail/>
+                <Footer/>
             </div>
         );
     }

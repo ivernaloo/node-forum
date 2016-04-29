@@ -9,6 +9,7 @@
     "compile": "npm run clean && babel src -d target",
     "clean": "rm -Rf target",
     "dev": "SET NODE_ENV=dev && SET DEBUG=my:* && cd target && nodemon server.js",
+    "devlinux": "export NODE_ENV=dev && export DEBUG=my:* && cd target && nodemon server.js",
     "fe:compile": "cd frontend && webpack --progress --colors",
     "fe:watch": "cd frontend && webpack --progress --colors --watch",
     "fe:dev": "cd frontend && webpack-dev-server"
@@ -60,10 +61,7 @@
     "babel-preset-es2015-node4": "^2.0.3",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "browser-request": "^0.3.3",
-    "imports-loader": "^0.6.5",
     "nodemon": "^1.9.1",
-    "react-hot": "^0.1.0",
     "react-hot-loader": "^1.3.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://127.0.0.1:3000',
+    'webpack-dev-server/client?http://0.0.0.0:3000',
     'webpack/hot/only-dev-server',
     './entry.js'
   ],
@@ -39,6 +39,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname,
     port: 3000,
+    host: '0.0.0.0',
     inline: true,
     historyApiFallback: true,
     stats: {
