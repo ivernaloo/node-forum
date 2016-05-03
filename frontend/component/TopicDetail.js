@@ -1,5 +1,5 @@
 import React from 'react';
-import {getTopicDetail} from '../lib/client';
+import {getTopicDetail} from './lib/client';
 
 export default class TopicDetail extends React.Component {
 
@@ -9,7 +9,7 @@ export default class TopicDetail extends React.Component {
     }
 
     componentDidMount() {
-        getTopicDetail(this.props.params.id);
+        getTopicDetail(this.props.params.id)
             .then(topic => this.setState({topic}))
             .catch(err => console.error(err));
     }

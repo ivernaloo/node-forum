@@ -1,4 +1,5 @@
 import React from 'react';
+import {link} from 'react-router';
 
 export default class Header extends React.Component {
     render() {
@@ -12,32 +13,16 @@ export default class Header extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand" href="#">Brand</a>
+                        <a className="navbar-brand" href="#">简单论坛系统</a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li className="active"><a href="#">Link <span className="sr-only">(current)</span></a></li>
-                            <li><a href="#">Link</a></li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span className="caret"></span></a>
-                                <ul className="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" className="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li role="separator" className="divider"></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
+                            <li className="active">
+                                <a href="/">首页</a>
                             </li>
+                            <li><a href="#">帮助</a></li>
                         </ul>
-                        <form className="navbar-form navbar-left" role="search">
-                            <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Search"/>
-                            </div>
-                            <button type="submit" className="btn btn-default">Submit</button>
-                        </form>
                         <ul className="nav navbar-nav navbar-right">
                             <li><a href="#">Link</a></li>
                             <li className="dropdown">
