@@ -25,6 +25,16 @@ export default class TopicDetail extends React.Component {
             <div>
                 <h2>{topic.title}</h2>
                 <section>{topic.content}</section>
+                <ul className="list-group">
+                    {topic.comments.map((item, i) => {
+                        return (
+                            <li className="list-group-item">
+                                {item._id}于{item.createdAt}说: <br/>{item.content}
+
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
         )
 

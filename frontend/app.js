@@ -5,18 +5,25 @@ import Footer from './component/Footer';
 import TopicDetail from './component/TopicDetail';
 import TopicList from './component/TopicList';
 
+class Index extends React.Component {
+    render() {
+        return (
+            <div className="container">
+                <Header/>
+                    {this.props.children ? this.props.children : <TopicList />}
+                <Footer/>
+            </div>
+        )
+    }
+}
 export default class App extends React.Component {
     render() {
         return (
-            <div>
-                <Header/>
                 <Router history={browserHistory}>
-                    <Route path="/" component={TopicList}/>
-                    <Route path="/topic/:id" component={TopicDetail}/>
+                    <Route path="/" component="{Index}">
+                        <Route path="/topic/:id" component={TopicDetail}/>
+                    </Route>
                 </Router>
-
-                <Footer/>
-            </div>
         );
     }
 }

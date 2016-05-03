@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
     render() {
         return (
             <div className="text-center">
-                &copy; CopyRight Node.js项目实战
+                &copy; CopyRight Node.js项目实战 hello world
             </div>
         )
 
