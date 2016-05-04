@@ -1,8 +1,33 @@
 import React from 'react';
 import jQuery from 'jquery';
+import {login} from './lib/client';
+
+
 
 export default class Login extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    handleChange(name, e) {
+        this.state[name] = e.target.value;
+    }
+
+    handleLogin(e) {
+        const $btn = jQuery(e.target);
+        $btn.button('loading');
+        login(this.state.name, this.state.password)
+            .then(ret => {
+                $btn.button('reset');
+                alert('登录成功！');
+            })
+            .catch(err => {
+                $btn.button('reset');
+                alert(err);
+            });
+    }
 
     render() {
         return (
@@ -13,11 +38,11 @@ export default class Login extends React.Component {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="ipt-name">用户名</label>
-                                <input type="text" className="form-control" id="ipt-name"  placeholder="" />
+                                <input type="text" className="form-control" id="ipt-name" onChange={this.handleChange.bind(this, 'name')} placeholder="" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">密码</label>
-                                <input type="password" className="form-control" id="password"  placeholder="" />
+                                <input type="password" className="form-control" id="password" onChange={this.handleChange.bind(this, 'password')} placeholder="" />
                             </div>
                             <button type="button" className="btn btn-primary" >登录</button>
                         </form>

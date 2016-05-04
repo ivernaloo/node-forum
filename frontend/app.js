@@ -7,9 +7,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <Header/>
+                <Header />
                 {this.props.children ? this.props.children : <TopicList />}
-                <Footer/>
+                <Footer />
             </div>
         );
     }

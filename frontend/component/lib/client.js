@@ -42,3 +42,7 @@ export  function getTopicList(options){
 export function getTopicDetail(id) {
     return request('get', `topic/item/${id}`).then(ret => ret.topic);
 }
+
+export function login(name, password){
+    return request('post', 'api/login', {name, password});
+}
