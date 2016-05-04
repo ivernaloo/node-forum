@@ -1,5 +1,5 @@
 import React from 'react';
-import {link} from 'react-router';
+import {Link} from 'react-router';
 
 export default class Header extends React.Component {
     render() {
@@ -19,12 +19,12 @@ export default class Header extends React.Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             <li className="active">
-                                <a href="/">首页</a>
+                                <Link to="/">首页</Link>
                             </li>
                             <li><a href="#">帮助</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#">Link</a></li>
+                            <li><Link to="/login">登录</Link></li>
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
