@@ -7,12 +7,11 @@ import TopicDetail from './component/TopicDetail';
 import Login from './component/Login';
 
 const e = document.createElement('div');
-e.className = 'container';
+e.id = 'app';
 document.body.appendChild(e);
 
 // import {getTopicList} from './lib/client';
 
-console.log("right way");
 
 ReactDOM.render((
     <Router history={browserHistory}>
