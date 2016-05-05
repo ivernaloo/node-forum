@@ -36,6 +36,15 @@ module.exports = function(done){
         res.apiSuccess();
     });
 
+    $.router.post('/api/logout', function(req, res, next){
+
+        delete  req.session.user;
+        delete req.session.logout_token;
+
+        res.apiSuccess();
+    });
+
+
     $.router.post('/api/signup', async function(req, res, next){
         const user = await $.method('user.add').call(req.body);
         res.apiSuccess({user : user})

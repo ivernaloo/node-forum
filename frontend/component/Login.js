@@ -1,7 +1,7 @@
 import React from 'react';
 import jQuery from 'jquery';
 import {login} from './lib/client';
-
+import {redirectURL} from './lib/utils';
 
 
 export default class Login extends React.Component {
@@ -22,12 +22,14 @@ export default class Login extends React.Component {
             .then(ret => {
                 $btn.button('reset');
                 alert('登录成功！');
+                redirectURL('/');
             })
             .catch(err => {
                 $btn.button('reset');
                 alert(err);
             });
     }
+
 
     render() {
         return (
@@ -44,7 +46,7 @@ export default class Login extends React.Component {
                                 <label htmlFor="password">密码</label>
                                 <input type="password" className="form-control" id="password" onChange={this.handleChange.bind(this, 'password')} placeholder="" />
                             </div>
-                            <button type="button" className="btn btn-primary" >登录</button>
+                            <button type="button" className="btn btn-primary" onClick={this.handleLogin.bind(this)}>登录</button>
                         </form>
                     </div>
                 </div>

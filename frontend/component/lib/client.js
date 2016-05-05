@@ -4,6 +4,7 @@ const urlBase = '/api';
 
 export function request(method, path, data){
     return new Promise((resolve, reject) => {
+        path = path.replace(/^\/+/, '');
         method = method.toUpperCase();
         const options = {
             method,
@@ -43,6 +44,14 @@ export function getTopicDetail(id) {
     return request('get', `topic/item/${id}`).then(ret => ret.topic);
 }
 
-export function login(name, password){
-    return request('post', 'api/login', {name, password});
+export function login(name, password) {
+    return request('post', 'login', {name, password});
+}
+
+export function loginUser() {
+    return request('get', 'login_user').then(ret => ret.user);
+}
+
+export function logout() {
+    return request('post', 'logout');
 }
