@@ -28,11 +28,15 @@ export default class TopicDetail extends React.Component {
         return (
             <div>
                 <h2>{topic.title}</h2>
+                <Link to={`/topic/${topic._id}/edit`} className="btn btn-xs btn-primary">
+                    <i className="glyphicon glyphicon-edit"></i> 编辑
+                </Link>
+                <hr/>
                 <section >{topic.content}</section>
                 <ul className="list-group">
                     {topic.comments.map((item, i) => {
                         return (
-                            <li className="list-group-item">
+                            <li className="list-group-item" key={i}>
                                 {item._id}于{item.createdAt}说: <br/>{item.content}
                             </li>
                         )
