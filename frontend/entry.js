@@ -5,6 +5,8 @@ import {Router, Route, browserHistory} from 'react-router'
 import App from './App';
 import TopicDetail from './component/TopicDetail';
 import Login from './component/Login';
+import NewTopic from './component/NewTopic';
+
 
 const e = document.createElement('div');
 e.id = 'app';
@@ -18,6 +20,7 @@ ReactDOM.render((
         <Route path="/" component={App}>
             <Route path="topic/:id" component={TopicDetail}/>
             <Route path="login" component={Login}/>
+            <Route path="new" component={NewTopic}/>
         </Route>
     </Router>
 ), e);
