@@ -1,5 +1,7 @@
 import React from 'react';
+import 'highlight.js/styles/github-gist.css';
 import {getTopicDetail} from './lib/client';
+
 
 export default class TopicDetail extends React.Component {
 
@@ -10,7 +12,9 @@ export default class TopicDetail extends React.Component {
 
     componentDidMount() {
         getTopicDetail(this.props.params.id)
-            .then(topic => this.setState({topic}))
+            .then(topic => {
+                this.setState({topic});
+            })
             .catch(err => console.error(err));
     }
 
@@ -24,13 +28,12 @@ export default class TopicDetail extends React.Component {
         return (
             <div>
                 <h2>{topic.title}</h2>
-                <section>{topic.content}</section>
+                <section >{topic.content}</section>
                 <ul className="list-group">
                     {topic.comments.map((item, i) => {
                         return (
                             <li className="list-group-item">
                                 {item._id}于{item.createdAt}说: <br/>{item.content}
-
                             </li>
                         )
                     })}
