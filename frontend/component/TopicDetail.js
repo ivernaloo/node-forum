@@ -2,7 +2,6 @@ import React from 'react';
 import 'highlight.js/styles/github-gist.css';
 import {getTopicDetail} from './lib/client';
 
-
 export default class TopicDetail extends React.Component {
 
     constructor(props){
