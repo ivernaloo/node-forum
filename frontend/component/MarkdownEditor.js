@@ -9,10 +9,12 @@ import './lib/style.css';
 export default class MarkdownEditor extends React.Component {
   render() {
     return (
-      <Codemirror options={{
-        mode: 'gfm'
+        <Codemirror options={{
+          mode: 'gfm',
+          lineNumbers: true,
+          theme: 'default'
 
-      }} />
+        }} />
     )
   }
 }
