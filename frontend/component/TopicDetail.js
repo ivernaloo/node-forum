@@ -1,5 +1,6 @@
 import React from 'react';
 import 'highlight.js/styles/github-gist.css';
+import {Link} from 'react-router';
 import {getTopicDetail} from './lib/client';
 
 export default class TopicDetail extends React.Component {

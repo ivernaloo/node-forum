@@ -22,7 +22,7 @@ export default class EditTopic extends React.Component {
   render() {
     if (!this.state.topic) {
       return (
-        <h3>正在加载...</h3>
+        <h3>正在加载....</h3>
       );
     }
 
