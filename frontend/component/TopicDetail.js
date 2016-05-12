@@ -47,6 +47,16 @@ export default class TopicDetail extends React.Component {
                 </Link>
                 <hr/>
                 <section dangerouslySetInnerHTML={{__html: topic.html}}></section>
+                <ul className="list-group">
+                    {topic.comments.map((item, i) => {
+                        return (
+                            <li className="list-group-item" key={i}>
+                                {item._id}于{item.createdAt}说: <br/>{item.content}
+                            </li>
+                        )
+                    })}
+                </ul>
+
                 <CommentEditor
                     title="发表评论"
                     onSave={(comment, done) => {
@@ -61,15 +71,7 @@ export default class TopicDetail extends React.Component {
                             })
                     }}
                 />
-                <ul className="list-group">
-                    {topic.comments.map((item, i) => {
-                        return (
-                            <li className="list-group-item" key={i}>
-                                {item._id}于{item.createdAt}说: <br/>{item.content}
-                            </li>
-                        )
-                    })}
-                </ul>
+
             </div>
         )
 
