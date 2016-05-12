@@ -1,8 +1,9 @@
 import React from 'react';
 import 'highlight.js/styles/github-gist.css';
 import {Link} from 'react-router';
-import {getTopicDetail} from './lib/client';
-import {renderMarkdown} from './lib/utils';
+import {getTopicDetail, addComment, deleteComment, deleteTopic} from './lib/client';
+import {renderMarkdown, redirectURL} from './lib/utils';
+import CommentEditor from './CommentEditor';
 
 export default class TopicDetail extends React.Component {
 
@@ -12,9 +13,18 @@ export default class TopicDetail extends React.Component {
     }
 
     componentDidMount() {
+        this.refresh();
+    }
+
+    refresh() {
         getTopicDetail(this.props.params.id)
             .then(topic => {
                 topic.html = renderMarkdown(topic.content);
+                if (topic.comments) {
+                    for (const item of topic.comments) {
+                        item.html = renderMarkdown(item.content);
+                    }
+                }
                 this.setState({topic});
             })
             .catch(err => console.error(err));
@@ -37,6 +47,20 @@ export default class TopicDetail extends React.Component {
                 </Link>
                 <hr/>
                 <section dangerouslySetInnerHTML={{__html: topic.html}}></section>
+                <CommentEditor
+                    title="发表评论"
+                    onSave={(comment, done) => {
+                        addComment(this.state.topic._id, comment.content)
+                            .then(comment => {
+                                done();
+                                this.refresh();
+                            })
+                            .catch(err => {
+                                done();
+                                alert(err);
+                            })
+                    }}
+                />
                 <ul className="list-group">
                     {topic.comments.map((item, i) => {
                         return (

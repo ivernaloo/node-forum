@@ -59,3 +59,23 @@ export function logout() {
 export function addTopic(title, tags, content) {
     return request('post', 'topic/add', {title, tags, content}).then(ret => ret.topic);
 }
+
+export function updateTopic(id, title, tags, content) {
+    return request('post', `topic/item/${id}`, {title, tags, content}).then(ret => ret.topic);
+}
+
+export function addComment(id, content) {
+    return request('post', `topic/item/${id}/comment/add`, {content}).then(ret => ret.comment);
+}
+
+export function deleteComment(id, cid) {
+    return request('post', `topic/item/${id}/comment/delete`, {cid});
+}
+
+export function updateProfile(email, nickname, about) {
+    return request('post', 'user/profile', {email, nickname, about});
+}
+
+export function deleteTopic(id) {
+    return request('delete', `topic/item/${id}/`);
+}
