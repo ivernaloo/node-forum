@@ -1,20 +1,19 @@
 import React from 'react';
 import Codemirror from 'react-codemirror';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/xml/xml';
-import 'codemirror/mode/markdown/markdown';
-
+import 'codemirror/lib/codemirror.css';
 import './lib/style.css';
+import 'codemirror/mode/gfm/gfm';
 
 export default class MarkdownEditor extends React.Component {
   render() {
     return (
-        <Codemirror options={{
-          mode: 'gfm',
-          lineNumbers: true,
-          theme: 'default'
-
-        }} />
+        <div style={{border: '1px solid #ccc'}}>
+          <Codemirror value={this.props.value} options={{
+            mode: 'gfm',
+            lineNumbers: false,
+            theme: 'default'
+          }} onChange={(value) => this.props.onChange({target: {value}})}/>
+        </div>
     )
   }
 }
