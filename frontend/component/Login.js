@@ -3,7 +3,6 @@ import jQuery from 'jquery';
 import {login} from './lib/client';
 import {redirectURL} from './lib/utils';
 
-
 export default class Login extends React.Component {
 
     constructor(props) {
@@ -18,7 +17,6 @@ export default class Login extends React.Component {
     handleLogin(e) {
         const $btn = jQuery(e.target);
         $btn.button('loading');
-
         login(this.state.name, this.state.password)
             .then(ret => {
                 $btn.button('reset');
@@ -30,7 +28,6 @@ export default class Login extends React.Component {
                 alert(err);
             });
     }
-
 
     render() {
         return (
@@ -45,7 +42,7 @@ export default class Login extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">密码</label>
-                                <input type="password" className="form-control" id="ipt-password" onChange={this.handleChange.bind(this, 'password')} placeholder="" />
+                                <input type="password" className="form-control" id="password" onChange={this.handleChange.bind(this, 'password')} placeholder="" />
                             </div>
                             <button type="button" className="btn btn-primary" onClick={this.handleLogin.bind(this)}>登录</button>
                         </form>

@@ -33,7 +33,7 @@ export default class Header extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand" href="#">简单论坛系统</a>
+                        <a className="navbar-brand" href="#">论坛</a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -47,7 +47,7 @@ export default class Header extends React.Component {
                         {this.state.user ? (
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/profile">设置</Link></li>
-                                <li><Link onClick={this.handleLogout.bind(this)}>注销 [{this.state.user.nickname}]</Link></li>
+                                <li><a href="#" onClick={this.handleLogout.bind(this)}>注销 [{this.state.user.nickname}]</a></li>
                             </ul>
                         ) : (
                             <ul className="nav navbar-nav navbar-right">

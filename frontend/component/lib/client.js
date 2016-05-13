@@ -56,7 +56,7 @@ export function logout() {
     return request('post', 'logout');
 }
 
-export function login(name, email, password){
+export function login(name, password){
     return request('post', 'login', {name, password});
 }
 

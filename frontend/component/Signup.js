@@ -18,7 +18,7 @@ export default class Signup extends React.Component {
     handleSignUp(e) {
         const $btn = jQuery(e.target);
         $btn.button('loading');
-        signup(this.state.name, this.state.email, this.state.password)
+        signup(this.state.name, this.state.email, this.state.password, this.state.nickname)
             .then(ret => {
                 $btn.button('reset');
                 alert('注册成功！');
