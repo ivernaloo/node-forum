@@ -44,8 +44,8 @@ export function getTopicDetail(id) {
     return request('get', `topic/item/${id}`).then(ret => ret.topic);
 }
 
-export function login(name, password) {
-    return request('post', 'login', {name, password});
+export function signup(name, email, password, nickname) {
+    return request('post', 'signup', {name, email, password, nickname});
 }
 
 export function loginUser() {

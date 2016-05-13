@@ -47,7 +47,7 @@ export default class Header extends React.Component {
                         {this.state.user ? (
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/profile">设置</Link></li>
-                                <li><a href="#" onClick={this.handleLogout.bind(this)}>注销 [{this.state.user.nickname}]</a></li>
+                                <li><Link onClick={this.handleLogout.bind(this)}>注销 [{this.state.user.nickname}]</Link></li>
                             </ul>
                         ) : (
                             <ul className="nav navbar-nav navbar-right">
