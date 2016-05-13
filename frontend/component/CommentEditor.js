@@ -31,7 +31,6 @@ export default class CommentEditor extends React.Component {
         <div className="panel-body">
           <form>
             <div className="form-group">
-              <label htmlFor="ipt-content">内容</label>
               <MarkdownEditor value={this.state.content} onChange={this.handleChange.bind(this, 'content')} />
             </div>
             <button type="button" className="btn btn-primary" onClick={this.handleSubmit.bind(this)}>保存</button>
