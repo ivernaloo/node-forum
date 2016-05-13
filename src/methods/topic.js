@@ -120,17 +120,21 @@ module.exports = function(done){
 
     $.method('topic.comment.delete').check({
         _id: {required: true, validate: (v) => validator.isMongoId(String(v))},
-        cid: {required: true, validate: (v) => validator.isMongoId(String(v))}
+        cid: {required: true, validate: (v) => validator.isMongoId(String(v))},
     });
-    $.method('topic.delete').register(async function(params){
+    $.method('topic.comment.delete').register(async function (params) {
 
         return $.model.Topic.update({_id: params._id}, {
             $pull: {
-                'comments.cid': params.cid
+                comments: {
+                    _id: params.cid,
+                }
             }
-        })
+        });
 
-    })
+    });
+
 
     done();
+
 };                                                                     

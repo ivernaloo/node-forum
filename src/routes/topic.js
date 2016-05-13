@@ -71,7 +71,7 @@ module.exports = function (done) {
 
         req.body._id = req.params.topic_id;
         req.body.authorId = req.session.user._id;
-        const comment = await $.method('topic.comment.get').call({
+        const comment = await $.method('topic.comment.delete').call({
             _id: req.params.topic_id,
             cid: req.body.cid
         });
