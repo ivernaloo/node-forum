@@ -56,6 +56,10 @@ export function logout() {
     return request('post', 'logout');
 }
 
+export function login(name, email, password){
+    return request('post', 'login', {name, password});
+}
+
 export function addTopic(title, tags, content) {
     return request('post', 'topic/add', {title, tags, content}).then(ret => ret.topic);
 }
