@@ -35,6 +35,7 @@ export default class TopicDetail extends React.Component {
             .catch(err => console.error(err));
     }
 
+    // todo: 删除不成功
     handleDeleteComment(cid) {
         if (!confirm('是否删除评论?')) return;
         deleteComment(this.state.topic._id, cid)
