@@ -50,6 +50,10 @@ module.exports = function(done){
             createAt: 1,
             updateAt: 1,
             lastCommentedAt: 1
+        }).populate({
+            path: authorId,
+            model: 'User',
+            select: 'nickname about'
         });
 
         if (params.skip) ret.skip(Number(params.skip));
