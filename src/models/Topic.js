@@ -8,7 +8,7 @@ module.exports = function (done) {
     const ObjectId = Schema.ObjectId;
 
     const Topic = new Schema({
-        authorId: {type: ObjectId, index: true},
+        author: {type: ObjectId, index: true, ref: 'User'},
         title: {type: String, trim: true},
         content: {type: String},
         tags: [{type: String, index: true}],
@@ -16,11 +16,11 @@ module.exports = function (done) {
         updatedAt: {type: Date, index: true},
         lastCommentedAt: {type: Date, index: true},
         comments: [{
-            authorId: ObjectId,
+            author: {type: ObjectId, ref: 'User'},
             content: String,
             createdAt: Date
         }]
-    })
+    });
 
     $.mongodb.model('Topic', Topic);
     $.model.Topic = $.mongodb.model('Topic');
