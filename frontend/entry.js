@@ -8,6 +8,7 @@ import Login from './component/Login';
 import Signup from './component/Signup';
 import NewTopic from './component/NewTopic';
 import EditTopic from './component/EditTopic';
+import Profile from './component/Profile';
 
 
 const e = document.createElement('div');
@@ -25,6 +26,7 @@ ReactDOM.render((
             <Route path="login" component={Login}/>
             <Route path="new" component={NewTopic}/>
             <Route path="signup" component={Signup}/>
+            <Route path="profile" component={Profile}/>
         </Route>
     </Router>
 ), e);

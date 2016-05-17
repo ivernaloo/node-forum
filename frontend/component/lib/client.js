@@ -83,3 +83,4 @@ export function updateProfile(email, nickname, about) {
 export function deleteTopic(id) {
     return request('delete', `topic/item/${id}/`);
 }
+
