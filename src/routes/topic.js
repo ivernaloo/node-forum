@@ -6,7 +6,7 @@ module.exports = function (done) {
 
     $.router.post('/api/topic/add', $.checkLogin, async function(req, res, next){
         debug("get a request from topic add")
-        req.body.authorId = req.session.user._id;
+        req.body.author = req.session.user._id;
 
         if('tags' in req.body){ // 过滤tags标签
             req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v); // 这里是处理把array变成string
@@ -70,7 +70,7 @@ module.exports = function (done) {
     $.router.post('/api/topic/item/:topic_id/comment/add',$.checkLogin, async function(req, res, next){
 
         req.body._id = req.params.topic_id;
-        req.body.authorId = req.session.user._id;
+        req.body.author = req.session.user._id;
         const comment = await $.method('topic.comment.add').call(req.body);
 
         res.apiSuccess({comment});
@@ -79,7 +79,7 @@ module.exports = function (done) {
     $.router.post('/api/topic/item/:topic_id/comment/delete',$.checkLogin, async function(req, res, next){
 
         req.body._id = req.params.topic_id;
-        req.body.authorId = req.session.user._id;
+        req.body.author = req.session.user._id;
         const comment = await $.method('topic.comment.delete').call({
             _id: req.params.topic_id,
             cid: req.body.cid

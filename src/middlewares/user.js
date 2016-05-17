@@ -15,10 +15,10 @@ module.exports = function(done){
         const topic = await $.method('topic.get').call({_id : req.params.topic_id})
         if (!topic) return next(new Error(`topic ${req.params.topic_id} does not exists`));
         // debug('topic : ', topic);
-        debug('topic.authorId : ', topic.authorId);
+        debug('topic.author : ', topic.author);
         debug('req.session.user._id : ', req.session.user._id);
 
-        if (topic.authorId.toString() != req.session.user._id.toString()) {
+        if (topic.author.toString() != req.session.user._id.toString()) {
             return next(new Error('access denied'));
         }
 

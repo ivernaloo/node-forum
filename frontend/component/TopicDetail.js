@@ -57,7 +57,7 @@ export default class TopicDetail extends React.Component {
         return (
             <div>
                 <h2>{topic.title}</h2>
-                <p>{topic.authorId} 发表于 {topic.createdAt}</p>
+                <p>{topic.author} 发表于 {topic.createdAt}</p>
                 <p>标签：{topic.tags.join(', ')}</p>
                 <Link to={`/topic/${topic._id}/edit`} className="btn btn-xs btn-primary">
                     <i className="glyphicon glyphicon-edit"></i> 编辑
