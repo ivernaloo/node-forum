@@ -1,11 +1,5 @@
 'use strict';
 
-/**
- * pratice Node.js project
- *
- * @author Zongmin Lei <leizongmin@gmail.com>
- */
-
 import validator from 'validator';
 
 module.exports = function (done) {

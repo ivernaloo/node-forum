@@ -1,5 +1,6 @@
 "use strict";
 
+
 module.exports = function (done) {
 
     const debug = $.createDebug('routes:topic');

@@ -48,7 +48,10 @@ export default class TopicList extends React.Component {
                 <ul className="list-group">
                     {list.map((item, key) => {
                         return (
-                            <Link to={`/topic/${item._id}`} className="list-group-item" key={key}>{item.title}</Link>
+                            <Link to={`/topic/${item._id}`} className="list-group-item" key={key}>
+                                {item.title}
+                                <span className="pull-right">{item.author.nickname} 发表于 {item.createdAt}</span>
+                            </Link>
                         )
                     })}
                 </ul>
