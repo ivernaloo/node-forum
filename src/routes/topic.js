@@ -44,7 +44,23 @@ module.exports = function (done) {
         const topic = await $.method('topic.get').call({_id: req.params.topic_id});
         if (!topic) return next(new Error(`topic ${req.params.topic_id} does not exists`));
 
-        res.apiSuccess({topic});
+        const userId = req.session.user && req.session.user._id && req.session.user._id.toString();
+        const isAdmin = req.session.user && req.session.user.isAdmin;
+
+        const result = {};
+        result.topic =$.utils.cloneObject(topic);
+        result.topic.permission = {
+            edit: isAdmin || userId === result.topic.author._id,
+            delete: isAdmin || userId === result.topic.author._id,
+        };
+        result.topic.comments.forEach(item => {
+            item.permission = {
+                edit: isAdmin || userId === item.author._id,
+                delete: isAdmin || userId === item.author._id
+            }
+        });
+
+        res.apiSuccess(result);
 
     });
 
@@ -77,7 +93,7 @@ module.exports = function (done) {
         res.apiSuccess({comment});
     })
 
-    $.router.post('/api/topic/item/:topic_id/comment/delete',$.checkLogin, async function(req, res, next){
+    $.router.post('/api/topic/item/:topic_id/comment/delete',$.checkLogin, $.checkTopicAuthor, async function(req, res, next){
 
         req.body._id = req.params.topic_id;
         req.body.author = req.session.user._id;

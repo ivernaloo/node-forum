@@ -4,7 +4,6 @@ module.exports = function(done){
 
     const debug = $.createDebug('middlewares:user');
 
-
     $.checkLogin = function(req, res, next){
         if (!(req.session.user && req.session.user._id)) return next(new Error('please login firstly'));
 
@@ -18,12 +17,12 @@ module.exports = function(done){
         debug('topic.author : ', topic.author);
         debug('req.session.user._id : ', req.session.user._id);
 
-        if (topic.author.toString() != req.session.user._id.toString()) {
-            return next(new Error('access denied'));
-        }
-
         req.topic = topic;
-        next();
+
+        if (req.session.user.isAdmin) return next();
+        if (topic.author._id.toString() != req.session.user._id.toString())  return next();
+
+        next(new Error('access denied'));
     };
     done();
 };

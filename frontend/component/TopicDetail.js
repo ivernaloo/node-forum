@@ -35,12 +35,22 @@ export default class TopicDetail extends React.Component {
             .catch(err => console.error(err));
     }
 
-    // todo: 删除不成功
     handleDeleteComment(cid) {
         if (!confirm('是否删除评论?')) return;
         deleteComment(this.state.topic._id, cid)
-            .then(comment => {
-                this.refresh();
+            .then(() => {
+                redirectURL('/');
+            })
+            .catch(err =>{
+                alert(err);
+            })
+    }
+
+    handleDeleteTopic () {
+        if (!confirm('是否删除主题?')) return;
+        deleteTopic(this.state.topic._id)
+            .then(() => {
+                redirectURL('/');
             })
             .catch(err =>{
                 alert(err);
@@ -59,20 +69,31 @@ export default class TopicDetail extends React.Component {
                 <h2>{topic.title}</h2>
                 <p>{topic.author.nickname} 发表于 {topic.createdAt}</p>
                 <p>标签：{topic.tags.join(', ')}</p>
+                {!topic.permission.edit ? null :
                 <Link to={`/topic/${topic._id}/edit`} className="btn btn-xs btn-primary">
                     <i className="glyphicon glyphicon-edit"></i> 编辑
                 </Link>
+                }
+                &nbsp;
+                &nbsp;
+                {!topic.permission.edit ? null :
+                <button className="btn btn-xs btn-danger" onClick={this.handleDeleteTopic.bind(this)}>
+                    <i className="glyphicon glyphicon-trash"></i> 删除
+                </button>
+                }
                 <hr/>
                 <section dangerouslySetInnerHTML={{__html: topic.html}}></section>
                 <ul className="list-group">
                     {topic.comments.map((item, i) => {
                         return (
                             <li className="list-group-item" key={i}>
+                                {!item.permission.delete ? null :
                                 <span className="pull-right">
                                     <button className="btn btn-xs btn-danger" onClick={this.handleDeleteComment.bind(this, item._id)}>
                                         <i className="glyphicon glyphicon-trash"></i>
                                     </button>
                                 </span>
+                                }
                                 {item.author.nickname}于{item.createdAt}说: <br/>
                                 <p dangerouslySetInnerHTML={{__html: item.html}}></p>
                             </li>
