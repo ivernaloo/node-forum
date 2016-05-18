@@ -30,8 +30,14 @@ module.exports = function (done) {
         }
         
         params.password = $.utils.encryptPassword(params.password.toString());
-        const user = new $.model.User(params);
-        user.save();
+        const user = new $.model.User({
+            name: params.name,
+            email: params.email,
+            nickname: params.nickname,
+            password: params.password,
+            about: params.about
+        });
+        return user.save();
 
     });
 
