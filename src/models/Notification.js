@@ -11,7 +11,9 @@ module.exports = function (done) {
         from: {type: ObjectId, index: true, ref: 'User'},
         to: {type: ObjectId, index: true, ref: 'User'},
         type: {type: String},
-        data: {type: object}
+        data: {type: object},
+        createAt: {type: Date},
+        isRead: {type: Boolean},
     });
 
     $.mongodb.model('Notification', Notification);
