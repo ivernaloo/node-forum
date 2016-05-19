@@ -84,3 +84,10 @@ export function deleteTopic(id) {
     return request('delete', `topic/item/${id}/`);
 }
 
+export function notificationCount() {
+    return request('get', 'notification/count').then(ret => ret.count);
+}
+
+export function notificationList(){
+    return request('get', 'notifcation/list')
+}
