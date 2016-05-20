@@ -135,7 +135,8 @@ module.exports = function (done) {
             to: topic.author._id,
             type: 'topic_comment',
             data: {
-                _id: params._id
+                _id: params._id,
+                title: topic.title,
             }
         });
 

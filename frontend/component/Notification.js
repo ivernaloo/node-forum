@@ -2,7 +2,7 @@ import React from 'react';
 import jQuery from 'jquery';
 import {Link} from 'react-router';
 
-import {notificationList} from './lib/client';
+import {notificationList, notificationSetRead} from './lib/client';
 import {redirectURL} from './lib/utils';
 
 export default class Notification extends React.Component {
@@ -13,22 +13,22 @@ export default class Notification extends React.Component {
     }
 
     componentDidMount() {
+        this.refresh();
+    }
+
+    refresh(){
         notificationList()
             .then(ret => this.setState(ret))
             .catch(err => console.error(err));
     }
 
-    handleChange(name, e) {
-        this.setState({[name]: e.target.value});
-    }
-
-    handleSave(e) {
+    handleSetRead(id, e) {
         const $btn = jQuery(e.target);
         $btn.button('loading');
-        updateProfile(this.state.email, this.state.nickname, this.state.about)
+        notificationSetRead(id)
             .then(ret => {
                 $btn.button('reset');
-                alert('修改成功！');
+                this.refresh();
             })
             .catch(err => {
                 $btn.button('reset');
@@ -46,7 +46,7 @@ export default class Notification extends React.Component {
             const ret = {};
             if(item.type === 'topic_comment'){
                 ret.link = `/topic/${item.data._id}`;
-                ret.title = `${item.from.nickname}评论了你发布的主题`;
+                ret.title = `${item.from.nickname}于${item.createdAt}评论了你发布的主题《${item.data.title}》`;
             } else {
                 ret.link = null;
                 ret.title = `系统消息`;
@@ -61,10 +61,17 @@ export default class Notification extends React.Component {
             <ul className="list-group">
                 {list.map((item, key) => {
                     return (
-                        <Link to={item.link} className="list-group-item" key={key}>
-                            {item.title}
-                            <span className="pull-right">时间： {item.createdAt}</span>
-                        </Link>
+                        <li  className="list-group-item" key={key}>
+                            <Link to={item.link}>
+                                {item.title}
+
+                            </Link>
+                            {!item.isRead ?
+                                    <span className="pull-right">
+                                        <button className="btn btn-xs btn-success" onClick={this.handleSetRead.bind(this, item._id)}><i className="glyphicon glyphicon-ok"></i> 设置为已读</button>
+                                    </span>
+                            : null}
+                        </li>
                     )
                 })}
             </ul>

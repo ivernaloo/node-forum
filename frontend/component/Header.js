@@ -14,7 +14,7 @@ export default class Header extends React.Component {
         loginUser()
             .then(user => this.setState({user}))
             .catch(err => console.error(err));
-        notificationCount()
+        notificationCount(false)
             .then(notificationCount => this.setState({notificationCount}))
             .catch(err => console.error(err));
     }
