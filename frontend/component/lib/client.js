@@ -89,5 +89,5 @@ export function notificationCount() {
 }
 
 export function notificationList(){
-    return request('get', 'notifcation/list')
+    return request('get', 'notification/list')
 }
