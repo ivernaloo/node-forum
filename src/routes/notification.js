@@ -42,5 +42,13 @@ module.exports = function(done) {
         res.apiSuccess({count, list});
     });
 
+    $.router.post('/api/notification/:id/read', $.checkLogin, async function(req, res, next){
+        const ret = await $.method('notification.setRead').call({
+            to: req.session.user._id,
+            _id: req.params.id,
+        });
+
+        res.apiSuccess(ret);
+    });
     done();
 };

@@ -48,6 +48,7 @@ module.exports = function (done) {
         if(params.skip) ret.skip(Number(params.skip));
         if(params.limit) ret.limit(Number(params.limit));
 
+        ret.sort({_id: -1});
         return ret;
     });
 
