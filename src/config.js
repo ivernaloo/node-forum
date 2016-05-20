@@ -20,4 +20,10 @@ module.exports = function (set, get, has) {
         port: 32772
     });
 
+    set('limiter.redis', {
+        host: '192.168.99.100',
+        port: 32772,
+        prefix: 'L:'
+    });
+
 };

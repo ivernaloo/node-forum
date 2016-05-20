@@ -9,6 +9,14 @@ module.exports = function (done) {
         debug("get a request from topic add")
         req.body.author = req.session.user._id;
 
+        {
+            const key = `addtopic:${req.body.author}:${$.utils.date('YmdH')}`;
+            const limit = 2;
+            const ok = await $.limiter.incr(key, limit);
+            if (!ok) throw new Error('out of limit');
+            
+        }
+        
         if('tags' in req.body){ // 过滤tags标签
             req.body.tags = req.body.tags.split(',').map(v=>v.trim()).filter(v => v); // 这里是处理把array变成string
         }
