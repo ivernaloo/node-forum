@@ -96,6 +96,14 @@ module.exports = function (done) {
 
         req.body._id = req.params.topic_id;
         req.body.author = req.session.user._id;
+
+        {
+            const key = `addcomment:${req.body.author}:${$.utils.date('YmH')}`;
+            const limit = 20;
+            const ok = await $.limiter.incr(key, limit);
+            if (ok) throw new Error('out of limit');
+        }
+
         const comment = await $.method('topic.comment.add').call(req.body);
 
         res.apiSuccess({comment});

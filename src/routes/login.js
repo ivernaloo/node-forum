@@ -11,6 +11,12 @@ module.exports = function(done){
 
         if (!req.body.password) return next(new Error('missing password'));
 
+        // 频率限制
+        {
+            const limit = 5;
+            const ok = await $.limiter.incr(key, limit);
+            if (!ok) throw new Error('out of limit');
+        }
         const user = await $.method('user.get').call(req.body);
         if (!user) return next(new Error('user does not exists'));
 
@@ -20,6 +26,8 @@ module.exports = function(done){
 
         req.session.user = user;
         req.session.logout_token = $.utils.randomString(20);
+
+        await $.limiter.reset(key);
 
         res.apiSuccess({token: req.session.logout_token});
 
@@ -46,6 +54,15 @@ module.exports = function(done){
 
 
     $.router.post('/api/signup', async function(req, res, next){
+
+        // 频率限制
+        const key = `long:${req.body.name}:${$.utils.date('Ymd')}`;
+        {
+            const limit = 5;
+            const ok = await $.limiter.incr(key, limit);
+            if (!ok) throw new Error('out of limit');
+
+        }
         const user = await $.method('user.add').call(req.body);
         res.apiSuccess({user : user})
     });

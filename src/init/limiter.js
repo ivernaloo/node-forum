@@ -24,5 +24,9 @@ module.exports = function(done){
         return true;
     };
 
+    $.limiter.reset = async function(key){
+        debug('reset: key=%s', key);
+        return connection.del(prefix + key);
+    };
     done();
 };
