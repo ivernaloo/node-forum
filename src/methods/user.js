@@ -72,6 +72,7 @@ module.exports = function (done) {
     $.method('user.update').register(async function (params) {
 
         const user = await $.method('user.get').call(params);  // 这里的操作有问题,或者是get有问题
+
         if (!user) {
             throw new Error('user does not exists');
         }

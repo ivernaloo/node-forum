@@ -17,12 +17,12 @@ module.exports = function (set, get, has) {
     // session redis connection
     set('web.session.redis', {
         host: '192.168.99.100',
-        port: 32772
+        port: 32763
     });
 
     set('limiter.redis', {
         host: '192.168.99.100',
-        port: 32772,
+        port: 32763,
         prefix: 'L:'
     });
 
