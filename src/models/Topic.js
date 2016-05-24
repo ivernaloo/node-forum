@@ -19,7 +19,8 @@ module.exports = function (done) {
             author: {type: ObjectId, ref: 'User'},
             content: String,
             createdAt: Date
-        }]
+        }],
+        pageView: {type: Number},
     });
 
     $.mongodb.model('Topic', Topic);

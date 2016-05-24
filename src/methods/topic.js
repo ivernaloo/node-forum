@@ -17,7 +17,6 @@ module.exports = function (done) {
         topic.createdAt = new Date();
 
         return topic.save();
-
     });
 
 
@@ -59,6 +58,7 @@ module.exports = function (done) {
             createdAt: 1,
             updatedAt: 1,
             lastCommentedAt: 1,
+            pageView: 1
         }).populate({
             path: 'author',
             model: 'User',
@@ -103,7 +103,6 @@ module.exports = function (done) {
     });
     $.method('topic.update').register(async function (params) {
 
-
         const update = {updatedAt: new Date()};
         if (params.title) update.title = params.title;
         if (params.content) update.content = params.content;
@@ -113,6 +112,14 @@ module.exports = function (done) {
 
     });
 
+    $.method('topic.incrPageView').check({
+        _id: {required: true, validate: (v) => validator.isMongoId(String(v))},
+    });
+    $.method('topic.incrPageView').register(async function (params) {
+
+        return $.model.Topic.update({_id: params._id}, {$inc: {pageView: 1}});
+
+    });
 
     $.method('topic.comment.add').check({
         _id: {required: true, validate: (v) => validator.isMongoId(String(v))},

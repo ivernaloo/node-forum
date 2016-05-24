@@ -14,7 +14,6 @@ module.exports = function (done) {
             const limit = 2;
             const ok = await $.limiter.incr(key, limit);
             if (!ok) throw new Error('out of limit');
-            
         }
         
         if('tags' in req.body){ // 过滤tags标签
@@ -67,6 +66,8 @@ module.exports = function (done) {
                 delete: isAdmin || userId === item.author._id
             }
         });
+
+        await $.method('topic.incrPageView').call({_id: req.params.topic_id});
 
         res.apiSuccess(result);
 
