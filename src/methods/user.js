@@ -47,7 +47,7 @@ module.exports = function (done) {
         email: {validate: (v) => validator.isEmail(v)},
     });
 
-    $.method('user.get').register(async function(params){
+    $.method('user.get').register(async function (params) {
 
         const query = {};
         if (params._id) {
@@ -57,22 +57,21 @@ module.exports = function (done) {
         } else if (params.email) {
             query.email = params.email;
         } else {
-            return new Error('missing parameter _id|name|email');
+            throw new Error('missing parameter _id|name|email');
         }
 
         return $.model.User.findOne(query);
+
     });
 
     $.method('user.update').check({
         _id: {validate: (v) => validator.isMongoId(v)},
         name: {validate: (v) => validator.isLength(v, {min: 4, max: 20}) && /^[a-zA-Z]/.test(v)},
-        email: {validate: (v) => validator.isEmail(v)}
+        email: {validate: (v) => validator.isEmail(v)},
     });
-
     $.method('user.update').register(async function (params) {
 
-        const user = await $.method('user.get').call(params);  // 这里的操作有问题,或者是get有问题
-
+        const user = await $.method('user.get').call(params);
         if (!user) {
             throw new Error('user does not exists');
         }
@@ -88,6 +87,17 @@ module.exports = function (done) {
 
     });
 
+    $.method('user.incrScore').check({
+        _id: {validate: (v) => validator.isMongoId(v)},
+        score: {validate: (v) => !isNaN(v), required: true}
+    });
+    
+    $.method('user.incrScore').register(async function (params) {
+        const user = await $.method('user.get').call(params);
+        return $.model.User.update({_id: user._id}, {score: params.score});
+
+    });
+    
     done();
 
 };

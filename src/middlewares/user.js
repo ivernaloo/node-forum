@@ -5,7 +5,6 @@ module.exports = function(done){
     const debug = $.createDebug('middlewares:user');
 
     $.checkLogin = function(req, res, next){
-        console.log("req.session : ", req.session.user);
         if (!(req.session.user && req.session.user._id)) return next(new Error('please login firstly'));
 
         next();
