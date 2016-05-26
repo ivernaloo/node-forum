@@ -3,9 +3,9 @@ module.exports = function(set, get, has) {
 
     set('db.mongodb', 'mongodb://192.168.99.100:32770/practice_nodejs_project');
 
-    set('smtp.host', 'smtp.qq.com');
+    set('smtp.host', 'smtp.163.com');
     set('smtp.secure', true);
     set('smtp.port', 465);
-    set('smtp.auth.user', 'x@zhoup.com');
-    set('smtp.auth.pass','xxxxx');
+    set('smtp.auth.user', 'aloo.gz@163.com');
+    set('smtp.auth.pass','xxxx');
 };
