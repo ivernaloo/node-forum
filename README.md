@@ -1,6 +1,7 @@
 # node-forum
 [![Code Climate](https://codeclimate.com/github/ivernaloo/node-forum/badges/gpa.svg)](https://codeclimate.com/github/ivernaloo/node-forum)
 [![Issue Count](https://codeclimate.com/github/ivernaloo/node-forum/badges/issue_count.svg)](https://codeclimate.com/github/ivernaloo/node-forum)
+
 2016.4.30
 - 需要绑定rest api
 
