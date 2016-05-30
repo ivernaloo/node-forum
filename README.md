@@ -1,6 +1,15 @@
 # node-forum
+[![Build Status](https://travis-ci.org/ivernaloo/node-forum.svg?branch=master)](https://travis-ci.org/ivernaloo/node-forum)
 [![Code Climate](https://codeclimate.com/github/ivernaloo/node-forum/badges/gpa.svg)](https://codeclimate.com/github/ivernaloo/node-forum)
 [![Issue Count](https://codeclimate.com/github/ivernaloo/node-forum/badges/issue_count.svg)](https://codeclimate.com/github/ivernaloo/node-forum)
+[![Test Coverage](https://codeclimate.com/github/ivernaloo/node-forum/badges/coverage.svg)](https://codeclimate.com/github/ivernaloo/node-forum/coverage)
+
+
+
+
+
+
+
 
 2016.4.30
 - 需要绑定rest api
