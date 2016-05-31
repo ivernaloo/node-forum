@@ -49,14 +49,5 @@ module.exports = function(done){
         });
     });
 
-    $.method('mail.sendTemplate').call({
-        to: 'x@zhoup.com',
-        subject: '欢迎你哦',
-        template: 'welcome',
-        data: {
-            username: 'aloo'
-        }
-    }, console.log);
-
     done();
 };

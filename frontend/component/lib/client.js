@@ -95,3 +95,12 @@ export function notificationList(){
 export function notificationSetRead(id) {
     return request('post', `notification/${id}/read`);
 }
+
+export function requestResetPassword(email){
+    return request('post', '/user/request_reset_password', {email});    
+}
+
+export function resetPassword(code, email, password){
+    "use strict";
+    return request('post', '/user/reset_password', {code, email, password});3
+}

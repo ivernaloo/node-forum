@@ -6,6 +6,6 @@ module.exports = function(set, get, has) {
     set('smtp.host', 'smtp.163.com');
     set('smtp.secure', true);
     set('smtp.port', 465);
-    set('smtp.auth.user', 'aloo.gz@163.com');
-    set('smtp.auth.pass','xxxx');
+    set('smtp.auth.user', 'ivernaloo@163.com');
+    set('smtp.auth.pass','abcd2017');
 };

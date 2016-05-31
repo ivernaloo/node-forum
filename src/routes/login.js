@@ -56,14 +56,25 @@ module.exports = function(done){
     $.router.post('/api/signup', async function(req, res, next){
 
         // 频率限制
-        const key = `long:${req.body.name}:${$.utils.date('Ymd')}`;
         {
+            const ip = req.header['x-forwarded-for'] || req.connection.remoteAddress;
+            const key = `signup:${ip}:${$.utils.date('Ymd')}`;
             const limit = 5;
             const ok = await $.limiter.incr(key, limit);
             if (!ok) throw new Error('out of limit');
 
         }
         const user = await $.method('user.add').call(req.body);
+
+        $.method('mail.sendTemplate').call({
+            to: user.email,
+            subject: '欢迎你哦',
+            template: 'welcome',
+            data:  user
+        }, err => {
+            if (err) console.error(err);
+        });
+
         res.apiSuccess({user : user})
     });
 

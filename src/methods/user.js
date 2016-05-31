@@ -42,7 +42,7 @@ module.exports = function (done) {
     });
 
     $.method('user.get').check({
-        _id: {validate: (v) => validator.isMongoId(v)},
+        _id: {validate: (v) => validator.isMongoId(String(v))},
         name: {validate: (v) => validator.isLength(v, {min: 4, max: 20}) && /^[a-zA-Z]/.test(v)},
         email: {validate: (v) => validator.isEmail(v)},
     });
@@ -50,6 +50,7 @@ module.exports = function (done) {
     $.method('user.get').register(async function (params) {
 
         const query = {};
+        // 这里的意思就是可以通过_id/name/email三选其一拿到最后的结果
         if (params._id) {
             query._id = params._id;
         } else if (params.name) {

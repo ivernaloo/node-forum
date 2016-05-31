@@ -19,10 +19,59 @@ module.exports = function (done) {
         req.session.user.email = user.email;
         req.session.user.nickname = user.nickname;
         req.session.user.about = user.about;
-
+                                    
         res.apiSuccess(user);
 
     });
 
+    $.router.post('/api/user/request_reset_password', async function (req, res, next) { // 截取请求链接
+
+        if (!req.body.email) return next(new Error('missing parameter `email`'));
+
+        const user = await $.method('user.get').call({email: req.body.email});
+        if (!user) return next(new Error(`user ${req.body.email} does not exists`));
+
+        const ttl = 3600; // 过期时间
+        const code = await $.captcha.generate({
+            type: 'reset_password',
+            email: req.body.email,
+        }, ttl);
+
+        await $.method('mail.sendTemplate').call({ // 发送邮件
+            to: req.body.email,
+            subject: '重置密码',
+            template: 'reset_password',
+            data: {code, ttl},
+        });
+
+        res.apiSuccess({email: req.body.email});
+
+    });
+
+
+    $.router.post('/api/user/reset_password', async function (req, res, next) {   // 修改密码
+
+        // 校验参数
+        if (!req.body.code) return next(new Error('missing parameter `code`'));
+        if (!req.body.email) return next(new Error('missing parameter `email`'));
+        if (!req.body.password) return next(new Error('missing parameter `password`'));
+
+        // 获取用户对象，通过email这个参数来拿到的 ?
+        const user = await $.method('user.get').call({email: req.body.email});
+        if (!user) return next(new Error(`user ${req.body.email} does not exists`)); // 校验参数
+
+        const data = await $.captcha.get(req.body.code); // 设置校验码
+        if (!data) return next(new Error(`invalid captcha code ${req.body.code}`));
+        if (data.type !== 'reset_password') return next(new Error(`invalid captcha code ${req.body.code} type`)); // 设置新的兑换码
+        if (data.email !== req.body.email) return next(new Error(`invalid captcha code ${req.body.code} email`));
+
+        const ret = await $.method('user.update').call({
+            _id: user._id,  
+            password: req.body.password,    // 更新密码
+        });
+
+        res.apiSuccess({email: req.body.email});
+
+    });
     done();
 };
