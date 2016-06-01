@@ -43,7 +43,6 @@ $.init((err) => {
         console.log('inited [env=%s]',$.env);
     }
 
-    require('./test');
 });
 
 

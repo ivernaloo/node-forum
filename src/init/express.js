@@ -17,6 +17,7 @@ module.exports = function(done){
     debug('initing Express...');
 
     const app = express();
+    $.express = app;
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
