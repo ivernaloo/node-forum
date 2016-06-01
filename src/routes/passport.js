@@ -24,6 +24,7 @@ module.exports = function (done) {
   }));
 
 
+  // passport.authenticate 这里用了一个中间件，用来方便登录
   $.router.get('/auth/github', passport.authenticate('github', {session: false}), function (req, res) {
 
     if (req.user.info) {
