@@ -27,12 +27,13 @@ module.exports = function(done){
         req.session.user = user;
         req.session.logout_token = $.utils.randomString(20);
 
+        // 这里是拿到了github的name，然后通过name来登录的。。。
         if (req.session.github_user) {
             await $.method('user.update').call({
                 _id: user._id,
                 githubUsername: req.session.github_user.username
             });
-            delete  req.session.github_user;
+            delete req.session.github_user;
         }
 
         await $.limiter.reset(key);
