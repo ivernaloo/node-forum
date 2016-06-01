@@ -29,7 +29,7 @@ export default class Login extends React.Component {
         alert(err);
       });
   }
-
+    
   handleReset(e) {
     const $btn = jQuery(e.target);
     $btn.button('loading'); // loading图标

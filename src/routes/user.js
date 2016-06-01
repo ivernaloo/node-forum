@@ -57,13 +57,13 @@ module.exports = function (done) {
         if (!req.body.password) return next(new Error('missing parameter `password`'));
 
         // 获取用户对象，通过email这个参数来拿到的 ?
-        const user = await $.method('user.get').call({email: req.body.email});
+        const user = await $.method('user.get').call({email: req.body.email}); // mongo用任何一个参数都可以拿到数据
         if (!user) return next(new Error(`user ${req.body.email} does not exists`)); // 校验参数
 
         const data = await $.captcha.get(req.body.code); // 设置校验码
-        if (!data) return next(new Error(`invalid captcha code ${req.body.code}`));
+        if (!data) return next(new Error(`invalid captcha code ${req.body.code}`)); // 错误
         if (data.type !== 'reset_password') return next(new Error(`invalid captcha code ${req.body.code} type`)); // 设置新的兑换码
-        if (data.email !== req.body.email) return next(new Error(`invalid captcha code ${req.body.code} email`));
+        if (data.email !== req.body.email) return next(new Error(`invalid captcha code ${req.body.code} email`)); // 邮箱匹配
 
         const ret = await $.method('user.update').call({
             _id: user._id,  

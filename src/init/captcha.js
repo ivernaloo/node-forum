@@ -26,10 +26,11 @@ module.exports = function(done){
 
     $.captcha.get = async function(code){
         const key = prefix + code;
-        const json = connection.get(key) // 从redis里面直接拿到数据 
+        const json = await connection.get(key) // 从redis里面直接拿到数据
         debug('get: code=%s, json=%s', code, json);
         if (!json) return false;
         const data = JSON.parse(json);
+        await connection.del(key);
         return data;
     };
     done();
