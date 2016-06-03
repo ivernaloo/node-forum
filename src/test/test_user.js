@@ -2,7 +2,7 @@
 
 
 import {expect} from 'chai';
-import request from '../test';
+import {request} from '../test';
 
 describe('user', function(){
 
@@ -21,9 +21,20 @@ describe('user', function(){
             const ret = await request.post('/api/signup', {
                 name: 'test1',
                 password: '12345678',
-                email: 'test1@example.com',
+                email: 'test1@example.com'
             })
             console.log(ret);
+            expect(ret.user.name).to.equal('test1');
+            expect(ret.user.email).to.equal('test1@example.com');
+        }
+
+        {
+            const ret = await request.post('/api/login', {
+                name: 'test1',
+                password: '123456789',
+            });
+            console.log(ret);
+            expect(ret.token).to.be.a('string');
         }
     })
 });
