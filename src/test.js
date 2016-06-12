@@ -64,6 +64,10 @@ function makeRequest(agent, method, path, data, params) {
             params = params || {};
             agent = agent || supertest($.express);
             let req = agent[method](path); // 调用express来执行?
+                                           // method指的是调用put/get/post其中一种方法
+                                            // path用的
+
+
                                                           // request这里面要调用express的一个实例
             if(method === 'get' || method === 'head'){
                 req = req.query(params);
@@ -82,24 +86,24 @@ function makeRequest(agent, method, path, data, params) {
     });
 }
 
-function generateRequestMethod(method){
+function generateRequestMethod(agent, method){
     return function (path, params){
-        return makeRequest(method, path, params);
+        return makeRequest(agent, method, path, params);
     }
 }
 
 function generateRequestSuite(agent){
     return {
-        get: generateRequestMethod('get'),
-        post: generateRequestMethod('post'),
-        put: generateRequestMethod('put'),
-        delete: generateRequestMethod('delete')
+        get: generateRequestMethod(agent, 'get'),
+        post: generateRequestMethod(agent, 'post'),
+        put: generateRequestMethod(agent, 'put'),
+        delete: generateRequestMethod(agent, 'delete')
     };
 }
 
 export var request = generateRequestSuite(false);
 export function session() {
-    return generateRequestSuite(supertest.agent($.express));
+    return generateRequestSuite(supertest.agent($.express)); //用supertest模拟了一个session来进行测试?
 }
 
 
