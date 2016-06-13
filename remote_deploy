@@ -1,0 +1,2 @@
+git push
+ssh nodejs@10.211.55.7 "cd ~/practice-node-project && git reset HEAD --hard && git pull && npm install && npm start"
