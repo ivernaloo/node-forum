@@ -1,19 +1,17 @@
 'use strict';
 
 /**
- * pratice Node.js project
- *
- * @author Zongmin Lei <leizongmin@gmail.com>
+ * mongodb的连接文件
  */
 
 import mongoose from 'mongoose';
 
 module.exports = function (done) {
 
-    const debug = $.createDebug('init:mongodb');
+    const debug = $.createDebug('init:mongodb'); // 显示debug文件
     debug('connecting to MongoDB...');
 
-    const conn = mongoose.createConnection($.config.get('db.mongodb'));
+    const conn = mongoose.createConnection($.config.get('db.mongodb')); // 拿到配置文件进行读取
     $.mongodb = conn;
     $.model = {};
 
