@@ -1,15 +1,17 @@
 {
-  "name": "download",
+  "name": "aloo-download",
   "version": "1.0.0",
-  "description": "",
+  "description": "display the speed of downloading",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register",
+    "prepublish": "npm run compile",
+    "test": "npm run compile && mocha --compilers js:babel-core/register",
     "compile": "babel src -d lib"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "aloocs@gmail.com",
+  "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "mocha": "^3.2.0"
   }
