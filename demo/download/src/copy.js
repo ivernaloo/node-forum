@@ -3,7 +3,7 @@ import fs from 'fs';
 export default function copyFile(source, target, progress){
     return new Promise((resolve, reject) => {
 
-        fs.stat(source, (err, stats) => {
+        fs.stat(source, (err, stats) => { // judge folder or file
             if (err) return reject(err);
 
             let ss = fs.createReadStream(source);
@@ -24,6 +24,3 @@ export default function copyFile(source, target, progress){
     })
 }
 
-copyFile(__filename, './copy-modified.js', (size, total) => console.log(`进度${size}/${total}`))
-    .then(filename => console.log(`已保存到${filename}`))
-    .catch(err => console.log(`出错: ${err}`));

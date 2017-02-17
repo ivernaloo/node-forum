@@ -30,7 +30,3 @@ export default function downloadFile(url, target, progress){
     })
 }
 
-let url = 'http://www.aloostudio.com/projects/2015/02/template/vote/yknight/res/img/introduce.png';
-downloadFile(url, './avatar.jpg', (size, total) => console.log(`进度${size}/${total}`))
-    .then(filename => console.log(`已保存到${filename}`))
-    .catch(err => console.log(`出错：${err}`));
