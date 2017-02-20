@@ -2,6 +2,7 @@ import request from 'request';
 import cheerio from 'cheerio';
 
 function fetch(url){
+    console.log("url : ", url);
     return new Promise((resolve, reject) => {
         request.get(url, (err, res, body) => {
             if (err) {
@@ -14,7 +15,7 @@ function fetch(url){
 }
 
 async  function articleList() {
-    const data = await fecth('https://cnodejs.org');
+    const data = await fetch('https://cnodejs.org');
     const $ = cheerio.load(data);
     const list = [];
     $(".topic_title").each(function(){
@@ -28,6 +29,21 @@ async  function articleList() {
 }
 
 async function articleDetail(url){
-    const data = await fetch('https://cnode.js.org' + url);
+    console.log("data : ========================================");
+
+    const data = await fetch('https://cnodejs.org' + url);
+    console.log("data : ", data)
     return data.length;
 }
+
+
+async function start(){
+    const list = await articleList();
+    for (const item of list){
+        console.log('fetch %s', item.title, item.link);
+        const length = await articleDetail(item.link);
+        console.log(' - %s', length);
+    }
+    console.log("done");
+}
+start().then(rect => console.log(rect)).catch(err => console.error(err));
