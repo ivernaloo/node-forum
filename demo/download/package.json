@@ -1,6 +1,6 @@
 {
   "name": "aloo-download",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "display the speed of downloading",
   "main": "index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "author": "aloocs@gmail.com",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-     "url" : "https://github.com/ivernaloo/node-forum.git"
+    "type": "git",
+    "url": "https://github.com/ivernaloo/node-forum.git"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
