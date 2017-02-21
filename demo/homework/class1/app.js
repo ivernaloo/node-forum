@@ -2,7 +2,7 @@
 
 const request = require('request');
 const cheerio = require('cheerio');
-const async = require("aysnc");
+const async = require("async");
 
 function fetch(url, callback){
     request.get(url, (err, res, body) => {
@@ -24,27 +24,35 @@ function articleList(callback) {
             }
         });
 
-        callback(null, list); //d
-
+        callback(null, list); // 第一个null的原因是不用传对象
     });
 }
 
-async function articleDetail(url){
-    console.log("data : ========================================");
-
-    const data = await fetch('https://cnodejs.org' + url);
-    console.log("data : ", data)
-    return data.length;
+function articleDetail(url, callback){
+    fetch("https://cnodejs.org" + url, (err, data) => {
+        callback(err, data && data.length);
+    });
 }
 
+function start(callback){
+    articleList((err, list) => {
+        if (err) return console.error(err);
 
-async function start(){
-    const list = await articleList();
-    for (const item of list){
-        console.log('fetch %s', item.title, item.link);
-        const length = await articleDetail(item.link);
-        console.log(' - %s', length);
+        async.eachSeries(list, (item, next) => {
+            articleDetail(item, (err, length) => {
+                if (err) return next(err);
+
+                console.log('%s [%s]', item.title, length);
+                next();
+            });
+        }, callback);
+    })
+}
+
+start((err) => {
+    if(err){
+        console.error(err);
+    } else {
+        console.log('done')
     }
-    console.log("done");
-}
-start().then(rect => console.log(rect)).catch(err => console.error(err));
+});
