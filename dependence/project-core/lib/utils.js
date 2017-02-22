@@ -13,6 +13,7 @@ const utils = module.exports = _utils.extend({});
 
 delete utils.extend;
 
+// encapsulate the debug function
 utils.debug = function (name) {
   return createDebug('project-core:' + name);
 };
