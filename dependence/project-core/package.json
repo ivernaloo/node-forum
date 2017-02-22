@@ -1,0 +1,42 @@
+{
+  "name": "project-core",
+  "version": "2.1.0",
+  "description": "project core",
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "npm run lint && mocha -t 5000",
+    "test-cov": "istanbul cover _mocha --report lcovonly -- -t 5000 -R spec && cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint lib test --fix",
+    "prepublish": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leizongmin/node-project-core.git"
+  },
+  "author": "Zongmin Lei <leizongmin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leizongmin/node-project-core/issues"
+  },
+  "homepage": "https://github.com/leizongmin/node-project-core#readme",
+  "dependencies": {
+    "debug": "2.6.0",
+    "js-yaml": "^3.6.1",
+    "lei-ns": "^0.4.0",
+    "lei-utils": "^3.0.0",
+    "rd": "1.0.0"
+  },
+  "devDependencies": {
+    "async": "^2.1.2",
+    "coveralls": "^2.11.14",
+    "eslint": "^3.8.1",
+    "eslint-config-lei": "^0.0.16",
+    "eslint-plugin-promise": "^3.3.0",
+    "istanbul": "^0.4.5",
+    "lei-coroutine": "^1.2.0",
+    "mocha": "^3.0.2"
+  }
+}
