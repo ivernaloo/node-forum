@@ -6,10 +6,10 @@
  * @author Zongmin Lei <leizongmin@gmail.com>
  */
 
-const path = require('path');
-const fs = require('fs');
-const { EventEmitter } = require('events');
-const { Namespace } = require('lei-ns');
+const path = require('path'); // 路径
+const fs = require('fs'); // 文件操作
+const { EventEmitter } = require('events'); // 事件
+const { Namespace } = require('lei-ns'); // namespace
 const rd = require('rd'); // 列出（遍历）目录下的所有文件，包括子目录
 const yaml = require('js-yaml');
 const utils = require('./utils');
