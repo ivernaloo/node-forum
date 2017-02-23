@@ -1,0 +1,42 @@
+{
+  "name": "merge-deep",
+  "description": "Recursively merge values in a javascript object.",
+  "repository": "jonschlinkert/merge-deep",
+  "license": "MIT",
+  "homepage": "https://github.com/jonschlinkert/merge-deep",
+  "authors": [
+    "Jon Schlinkert (https://github.com/jonschlinkert)"
+  ],
+  "main": [
+    "index.js"
+  ],
+  "dependencies": {
+    "clone-deep": "^0.1.1",
+    "is-plain-object": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^6.0.3"
+  },
+  "keywords": [
+    "clone",
+    "clone-deep",
+    "copy",
+    "deep",
+    "deep-clone",
+    "deep-merge",
+    "extend",
+    "key",
+    "keys",
+    "merge",
+    "merge-deep",
+    "object",
+    "objects",
+    "prop",
+    "properties",
+    "property",
+    "props",
+    "value",
+    "values"
+  ]
+}

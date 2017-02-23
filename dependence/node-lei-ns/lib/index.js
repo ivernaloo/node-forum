@@ -150,6 +150,6 @@ function Namespace(initData) {
 
 
 Namespace.utils = utils;
-module.exports = exports = new Namespace();
+module.exports = new Namespace();
 exports.Namespace = Namespace;
 exports.create = Namespace;
