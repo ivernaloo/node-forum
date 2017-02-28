@@ -1,0 +1,30 @@
+<html>
+<body>
+
+<a href="#" onclick="bench.run({async: true}); return false;">run test</a>
+
+<div id="mydiv"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/benchmark/1.0.0/benchmark.min.js"></script>
+<script>
+
+    var bench = new Benchmark('insertNode',
+
+// The function to test
+            function() {
+                mydiv.insertAdjacentHTML('beforeend', '<span></span>');
+            },
+
+// Additional options for the test
+            {
+                'setup': function() {
+                    var mydiv = document.getElementById('mydiv');
+                },
+                'teardown': function() {
+                    mydiv.innerHTML = '';
+                }
+            });
+</script>
+
+</body>
+</html>
