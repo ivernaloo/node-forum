@@ -35,12 +35,12 @@ function merge(target, obj) {  // 把target合并到obj上
       continue;
     }
 
-    var oldVal = obj[key];
-    var newVal = target[key];
+    var oldVal = obj[key]; // 原有的值，这里已经不是原来的，已经拿到子节点
+    var newVal = target[key]; // 新值
 
     if (utils.isObject(newVal) && utils.isObject(oldVal)) { // 现在原来的值都是对象
-      target[key] = merge(newVal, oldVal);  // 直接合并
-    } else if (Array.isArray(newVal)) {
+      target[key] = merge(newVal, oldVal);  // 子节点是对象的时候递归合并
+    } else if (Array.isArray(newVal)) { // 子节点是数组
       target[key] = utils.union([], newVal, oldVal); // 数组合并?
     } else {
       target[key] = utils.clone(oldVal);  // 简单复制

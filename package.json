@@ -1,0 +1,19 @@
+{
+  "name": "forum-node",
+  "version": "1.0.0",
+  "description": "又一个Node Forum，专业造轮子 17/2/22",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivernaloo/node-forum.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivernaloo/node-forum/issues"
+  },
+  "homepage": "https://github.com/ivernaloo/node-forum#readme"
+}
