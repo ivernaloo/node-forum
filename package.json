@@ -1,6 +1,6 @@
 {
   "name": "forum-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "又一个Node Forum，专业造轮子 17/2/22",
   "main": "index.js",
   "scripts": {
