@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm run clean && babel src -d target --watch",
     "compile": "npm run clean && babel src -d target",
+    "dev": "set NODE_ENV=dev&&node target/server.js",
     "clean": "rm -Rf target"
   },
   "repository": {
