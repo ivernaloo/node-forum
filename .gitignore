@@ -4,4 +4,5 @@
 *.iml
 out
 gen
+target
 node_modules
