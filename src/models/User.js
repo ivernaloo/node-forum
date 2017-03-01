@@ -15,4 +15,7 @@ module.exports = function(done){
     });
     
     $.mongodb.model('User', User);
+    $.model.User = $.mongodb.model('User');
+
+    done();
 };

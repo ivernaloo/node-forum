@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm run clean && babel src -d target --watch",
     "compile": "npm run clean && babel src -d target",
-    "dev": "set NODE_ENV=dev&&node target/server.js",
+    "dev": "npm run compile&&set NODE_ENV=dev&&node target/server.js",
     "clean": "rm -Rf target"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "babel-preset-stage-0": "^6.22.0"
   },
   "dependencies": {
+    "mongoose": "^4.8.5",
     "project-core": "^2.1.0"
   }
 }
