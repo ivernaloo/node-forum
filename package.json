@@ -2,12 +2,12 @@
   "name": "forum-node",
   "version": "1.0.1",
   "description": "又一个Node Forum，专业造轮子 17/2/22",
-  "main": "index.js",
+  "main": "target/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm run clean && babel src -d target --watch",
     "compile": "npm run clean && babel src -d target",
-    "server" : "set NODE_ENV=dev&&node target/server.js",
+    "server" : "set NODE_ENV=dev&&nodemon target/server.js",
     "dev": "start npm run watch &&start npm run server ",
     "clean": "rm -Rf target"
   },
