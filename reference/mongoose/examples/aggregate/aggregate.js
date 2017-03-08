@@ -54,7 +54,7 @@ mongoose.connect('mongodb://localhost/persons', function(err) {
 
   // create all of the dummy people
   async.each(data, function(item, cb) {
-    Person.create(item, cb);
+    Person.create(item, cb); // 每一项的item都单独存起来
   }, function(err) {
     if (err) {
       // handle error
