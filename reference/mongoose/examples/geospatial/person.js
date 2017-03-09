@@ -11,14 +11,14 @@ module.exports = function() {
     birthday: Date,
     gender: String,
     likes: [String],
-    // define the geospatial field
+    // define the geospatial field why 2d no 2dsphere
     loc: {type: [Number], index: '2d'}
   });
 
   // define a method to find the closest person
   PersonSchema.methods.findClosest = function(cb) {
     return this.model('Person').find({
-      loc: {$nearSphere: this.loc},
+      loc: {$nearSphere: this.loc},  // find by nearsphere
       name: {$ne: this.name}
     }).limit(1).exec(cb);
   };

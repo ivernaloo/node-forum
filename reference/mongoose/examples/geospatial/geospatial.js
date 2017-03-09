@@ -53,6 +53,7 @@ var data = [
 ];
 
 
+// connect
 mongoose.connect('mongodb://localhost/persons', function(err) {
   if (err) {
     throw err;
