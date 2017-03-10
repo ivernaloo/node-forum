@@ -52,6 +52,7 @@ mongoose.connect('mongodb://localhost/persons', function(err) {
     }
 
     // create a promise (get one from the query builder)
+    // query builder form return mongoose document
     var prom = Person.find({age: {$lt: 1000}}).exec();
 
     // add a callback on the promise. This will be called on both error and

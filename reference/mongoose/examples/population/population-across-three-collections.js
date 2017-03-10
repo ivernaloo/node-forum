@@ -2,7 +2,7 @@
 var assert = require('assert');
 var mongoose = require('../../lib');
 var Schema = mongoose.Schema;
-var ObjectId = mongoose.Types.ObjectId;
+var ObjectId = mongoose.Types.ObjectId; // type
 
 /**
  * Connect to the db
@@ -24,7 +24,7 @@ var user = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   }]
-});
+}); // user schema
 var User = mongoose.model('User', user);
 
 var blogpost = Schema({
@@ -49,6 +49,7 @@ mongoose.connection.on('open', function() {
   var userIds = [new ObjectId, new ObjectId, new ObjectId, new ObjectId];
   var users = [];
 
+  // push dummy data into array
   users.push({
     _id: userIds[0],
     name: 'mary',
@@ -70,6 +71,7 @@ mongoose.connection.on('open', function() {
     friends: [userIds[0], userIds[1], userIds[2]]
   });
 
+  // just like RDBMS
   User.create(users, function(err) {
     assert.ifError(err);
 
