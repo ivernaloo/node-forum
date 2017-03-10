@@ -16,7 +16,9 @@ module.exports = function(done){
 
     $.mongodb.model('User', User); // models are dfined by passing a Schema instance to mongoose.model
                                    // define the mongodb schema
+    $.model = $.mongodb;
     $.model.User = $.mongodb.model('User');
 
     done();
+
 };
