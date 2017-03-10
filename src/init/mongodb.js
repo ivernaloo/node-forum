@@ -9,6 +9,7 @@ module.exports = function (done){
         // we're connected!
         console.log("mongodb connected")
     });
-    
+
+    $.model = {};
     done(); // async
-};
+};                                        

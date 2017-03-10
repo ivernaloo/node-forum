@@ -21,6 +21,8 @@ $.init.load(path.resolve(__dirname, 'init', 'mongodb.js'));
 // 加载Models
 $.init.load(path.resolve(__dirname, 'models'));
 
+// 初始化express
+$.init.load(path.resolved(__dirname, 'init', 'express'));
 
 
 // 初始化
