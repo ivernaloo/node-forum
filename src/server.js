@@ -2,8 +2,18 @@
 
 import path from 'path';
 import ProjectCore from 'project-core';
+import createDebug from  'debug';
+
+
 
 const $ = global.$ = new ProjectCore();
+
+// 创建Debug参数
+$.createDebug = function(name){
+    return createDebug('my: ' + name);
+};
+const debug = $.createDebug('server');
+
 
 // 加载配置文件
 $.init.add((done) => {
