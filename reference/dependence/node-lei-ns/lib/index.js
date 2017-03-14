@@ -56,7 +56,7 @@ function Namespace(initData) {
   }
 
   function has(n) {
-    return (typeof get(n) !== 'undefined');
+    return (typeof get(n) !== 'undefined'); // detect the key existed
   }
 
   function del(n) {

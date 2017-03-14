@@ -10,8 +10,10 @@ module.exports = function(done){
     
     const User = new Schema({
         name : {type : String, unique: true},
+        email : {type: String, unique: true},
         password : {type : String},
-        nickname : {type: String}
+        nickname : {type: String},
+        about: {type: String}
     });
 
     $.mongodb.model('User', User); // models are dfined by passing a Schema instance to mongoose.model

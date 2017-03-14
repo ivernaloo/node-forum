@@ -13,8 +13,6 @@ $.createDebug = function(name){
     return createDebug('my: ' + name);
 };
 const debug = $.createDebug('server');
-debug(".....")
-
 
 // 加载配置文件
 $.init.add((done) => {
@@ -31,6 +29,9 @@ $.init.add((done) => {
 $.init.load(path.resolve(__dirname, 'init', 'mongodb.js'));
 // 加载Models
 $.init.load(path.resolve(__dirname, 'models'));
+
+// load methods
+$.init.load(path.resolve(__dirname, 'methods'));
 
 // 初始化express
 $.init.load(path.resolve(__dirname, 'init', 'express.js'));
