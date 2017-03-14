@@ -13,6 +13,7 @@ $.createDebug = function(name){
     return createDebug('my: ' + name);
 };
 const debug = $.createDebug('server');
+debug(".....")
 
 
 // 加载配置文件
