@@ -8,19 +8,20 @@
 
 const utils = require('./utils');
 
+// namespace singleton
 function Namespace(initData) {
 
-  const splitName = utils.splitName;
-  const getChild = utils.getChild;
-  const initChild = utils.initChild;
-  const getLeafs = utils.getLeafs;
+  const splitName = utils.splitName; //Helpers splitName
+  const getChild = utils.getChild;  // Helpers getChild
+  const initChild = utils.initChild;  // Helpers initChild
+  const getLeafs = utils.getLeafs;  // Helpers getLeafs
 
   function get(n) {
-    return getChild(namespace.data, splitName(n));
+    return getChild(namespace.data, splitName(n)); // namespace.data is a object, splitName(n) return array
   }
 
   function all() {
-    return namespace.data;
+    return namespace.data; // all leaf node
   }
 
   function set(n, v) {
