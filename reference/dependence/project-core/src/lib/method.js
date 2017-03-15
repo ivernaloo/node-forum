@@ -6,16 +6,16 @@
  * @author Zongmin Lei <leizongmin@gmail.com>
  */
 
-import escapeStringRegexp from 'escape-string-regexp';
-import utils from './utils';
-const debug = utils.debug('method');
+import escapeStringRegexp from 'escape-string-regexp';  // escape string regexp 'how much $ for a unicorn?' ->'how much \$ for a unicorn\?'
+import utils from './utils';  // helper function
+const debug = utils.debug('method');  // debug info
 
-export class Method {
+export class Method { // consctructor
 
   constructor(name) {
-    this.name = name || null;
+    this.name = name || null; // private variable
     this._fn = null;
-    this._before = [];
+    this._before = [];  // aop machanism
     this._after = [];
     this._check = null;
   }
