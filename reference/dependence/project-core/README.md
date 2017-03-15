@@ -1,10 +1,10 @@
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
+[![Gittip][gittip-image]][gittip-url]
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
-[![npm license][license-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/project-core.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/project-core
@@ -12,13 +12,14 @@
 [travis-url]: https://travis-ci.org/leizongmin/node-project-core
 [coveralls-image]: https://img.shields.io/coveralls/leizongmin/node-project-core.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/leizongmin/node-project-core?branch=master
+[gittip-image]: https://img.shields.io/gittip/leizongmin.svg?style=flat-square
+[gittip-url]: https://www.gittip.com/leizongmin/
 [david-image]: https://img.shields.io/david/leizongmin/node-project-core.svg?style=flat-square
 [david-url]: https://david-dm.org/leizongmin/node-project-core
-[node-image]: https://img.shields.io/badge/node.js-%3E=_6.0-green.svg?style=flat-square
+[node-image]: https://img.shields.io/badge/node.js-%3E=_4.0-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/project-core.svg?style=flat-square
 [download-url]: https://npmjs.org/package/project-core
-[license-image]: https://img.shields.io/npm/l/project-core.svg
 
 # project-core
 
@@ -27,8 +28,6 @@
 ```bash
 $ npm install project-core --save
 ```
-
-**Notes: only support Node.js v6.0 or above**
 
 
 ## Usage
@@ -41,19 +40,66 @@ const ProjectCore = require('project-core');
 // create new instance
 const $ = global.$ = new ProjectCore();
 
+// namespace, you can store data in memory
+$.data.set('abc.e.f', 123);
+console.log($.data.get('abc'));
+// => {e: {f: 123}}
+
 // util functions, extends from lei-utils
 console.log($.utils.md5('haha'));
 // add your own function
 $.utils.say = function () {};
 
+// methods
+// register, must be async function
+// the first argument is an params object
+// the last argument is callback function
+$.method('my.hello').register(function (params, callback) {
+  callback(null, params.a + params.b);
+});
+// also support async function
+$.method('my.hello').register(async function (params) {
+  return params.a + params.b;
+});
+// register hook: before
+$.method('my.hello').before(async function (params) {
+  params.a = Number(params.a);
+  params.b = Number(params.b);
+  return params;
+});
+// register hook: after
+$.method('my.hello').after(function (params, callback) {
+  if (isNaN(params)) {
+    callback(new TypeError('result is not a number'));
+  } else {
+    callback(null, params);
+  }
+});
+// register checker
+// if missing required parameter, throws an $.utils.MissingParameterError
+// if validating parameter failed, throws an $.utils.InvalidParameterError
+$.method('my.hello').check({
+  a: {                            // parameter name
+    required: true,               // set to true if it is required
+    validate: (v) => !isNaN(v),   // set validator
+  },
+});
+// notes: when register hook, you can use wildcard in the method name
+// for example, "my.*"
+// call function
+$.method('my.hello').call({a: 123, b: 456}, function (err, ret) {
+  console.log(err, ret); // => null, 6
+  // if passed {c: 123, d: 456} the result would be => TypeError: result is not a number
+});
+
 // extends
 $.extends({
   // before: optional, will be called before initializing plugins
-  before(next) {},
+  before: function (next) {},
   // init: initialize plugin
-  init(next) {},
+  init: function (next) {},
   // after: optional, will be called after plugins initialized
-  after(next) {},
+  after: function (next) {},
 });
 
 // init queue
@@ -85,54 +131,16 @@ console.log($.config.has('web.port'));
 $.init();
 ```
 
-
-### Configuration file
-
-#### JavasSript file
-
-exmaple file `dev.js`:
+### Example config file
 
 ```javascript
 module.exports = function (set, get, has) {
 
   set('web.session.secret', '11111111');
-  // use the get(name) and has(name) to get specific config value
-  // you can also use this.set(), this.get() and this.has()
-  // for exmaple: this.set('we.session.secret')
+  // you can use the get(name) and has(name) to get specific config value
 
 };
 ```
-
-use `$.config.load('/path/to/dev.js')` or `$.config.load('/path/to/dev')` to load this config file.
-
-#### JSON file
-
-example file `dev.json`:
-
-```json
-{
-  "web": {
-    "session": {
-      "secret": "11111111"
-    }
-  }
-}
-```
-
-use `$.config.load('/path/to/dev.json')` to load this config file.
-
-#### YAML file
-
-example file `dev.yaml` (or `dev.yml`):
-
-```yaml
-web:
-  session:
-    secret: '11111111'
-```
-
-use `$.config.load('/path/to/dev.yaml')` to load this config file.
-
 
 ### Extends and republish your own `project-core`
 
@@ -158,30 +166,6 @@ $.event.once('ready', function () {
 // exports
 module.exports = $;
 ```
-
-or:
-
-```javascript
-'use strict';
-
-const ProjectCore = require('project-core');
-
-class MyProject extends ProjectCore {
-
-  constructor() {
-    super();
-    // do something
-  }
-
-  init(callback) {
-    // do something before init...
-    // and then call super.init()
-    super.init(callback);
-  }
-
-}
-```
-
 
 
 ## License

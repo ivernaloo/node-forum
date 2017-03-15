@@ -6,14 +6,13 @@
  * @author Zongmin Lei <leizongmin@gmail.com>
  */
 
-const _utils = require('lei-utils');
-const createDebug = require('debug');
+import _utils from 'lei-utils';
+import createDebug from 'debug';
 
-const utils = module.exports = _utils.extend({});
+const utils = _utils.extend({});
 
 delete utils.extend;
 
-// encapsulate the debug function
 utils.debug = function (name) {
   return createDebug('project-core:' + name);
 };
@@ -28,13 +27,6 @@ utils.extends = function () {
 };
 
 utils.runSeries = function (list, thisArg, cb) {
-  let params = [];
-  if (arguments.length === 4) {
-    // eslint-disable-next-line
-    params = arguments[2];
-    // eslint-disable-next-line
-    cb = arguments[3];
-  }
 
   let isCallback = false;
   const callback = err => {
@@ -43,25 +35,25 @@ utils.runSeries = function (list, thisArg, cb) {
     } else {
       isCallback = true;
       debug('runSeries: callback, err=%s', err);
-      process.nextTick(() => cb.call(thisArg, err, ...params));
+      process.nextTick(() => cb(err));
     }
   };
 
   const next = err => {
+
     if (err) return callback(err);
     if (isCallback) return callback(new Error('has been callback'));
 
-    const fn = list.shift();
+    let fn = list.shift();
     if (!fn) return callback(null);
 
-    const isSync = fn.length <= params.length;
     let isPromise = false;
     let r = null;
 
     try {
 
       if (fn.__sourceLine) debug('runSeries: at %s', fn.__sourceLine);
-      r = fn.call(thisArg, ...params, (err) => {
+      r = fn.call(thisArg, (err) => {
         if (isPromise) return callback(new Error(`please don't use callback in an async function`));
         next(err);
       });
@@ -72,16 +64,15 @@ utils.runSeries = function (list, thisArg, cb) {
     }
 
     if (isPromise) {
-      r.then(_ => next()).catch(callback);
-    } else if (isSync) {
-      process.nextTick(next);
+      r.then(ret => next()).catch(callback);
     }
+
   };
   next(null);
 };
 
 utils.wrapFn = function (fn, self = null) {
-  return function (_) {
+  return function (done) {
     const args = arguments;
     const callback = args[args.length - 1];
     try {
@@ -92,11 +83,11 @@ utils.wrapFn = function (fn, self = null) {
     } catch (err) {
       return callback(err);
     }
-  };
+  }
 };
 
 utils.getCallerSourceLine = function () {
-  const dir = `${ __dirname }/`;
+  const dir = __dirname + '/';
   const stack = (new Error()).stack.split('\n').slice(1);
   for (let line of stack) {
     line = line.trim();
@@ -119,12 +110,14 @@ utils.deref = function (v) {
   return v;
 };
 
-utils.MissingParameterError = utils.customError('missingParameterError', { code: 'missing_parameter', from: 'ProjectCore.method' });
+utils.MissingParameterError = utils.customError('missingParameterError', {code: 'missing_parameter', from: 'ProjectCore.method'});
 utils.missingParameterError = function (name) {
-  return new utils.MissingParameterError(`missing parameter "${ name }"`, { name });
+  return new utils.MissingParameterError(`missing parameter "${name}"`, {name: name});
 };
 
-utils.InvalidParameterError = utils.customError('invalidParameterError', { code: 'invalid_parameter', from: 'ProjectCore.method' });
+utils.InvalidParameterError = utils.customError('invalidParameterError', {code: 'invalid_parameter', from: 'ProjectCore.method'});
 utils.invalidParameterError = function (name) {
-  return new utils.InvalidParameterError(`invalid parameter "${ name }"`, { name });
+  return new utils.InvalidParameterError(`invalid parameter "${name}"`, {name: name});
 };
+
+export default utils;
