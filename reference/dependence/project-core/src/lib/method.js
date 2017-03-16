@@ -17,20 +17,20 @@ export class Method { // consctructor
     this._fn = null;
     this._before = [];  // aop machanism
     this._after = [];
-    this._check = null;
+    this._check = null; // combine with validator library
   }
 
   _wrap(fn) {
 
-    if (typeof fn !== 'function') {
+    if (typeof fn !== 'function') { // detect function type
       throw new TypeError(`argument must be a function`);
     }
 
     const wrap = function (params, callback) {
-      debug(' - run - %s %s at %s', fn.__type, fn.__name, fn.__sourceLine);
+      debug(' - run - %s %s at %s', fn.__type, fn.__name, fn.__sourceLine); //  artificial maintenance variable
       return fn(params, callback);
     };
-    wrap.__sourceLine = fn.__sourceLine;
+    wrap.__sourceLine = fn.__sourceLine; // cache status
     wrap.__type = fn.__type;
     wrap.__name = fn.__name = this.name;
     return wrap;
@@ -66,18 +66,19 @@ export class Method { // consctructor
     return this;
   }
 
+  // excute the async queue
   call(_params, cb) {
     return new Promise((resolve, reject) => {
 
-      const params = utils.deref(_params);
+      const params = utils.deref(_params); // like a deep copy
 
-      let isCallback = false;
+      let isCallback = false; // callback status flag
       const callback = (err, result) => {
-        if (isCallback) {
+        if (isCallback) { // no callback
           debug('call: multi callback(err=%s)', err);
         } else {
           isCallback = true;
-          process.nextTick(() => {
+          process.nextTick(() => {  // event loop, just like a excution queue
             if (err) {
               reject(err);
               cb && cb(err);
@@ -91,8 +92,8 @@ export class Method { // consctructor
 
       try {
         if (this._check) {
-          for (const n in this._check) {
-            if (this._check[n].required && !(n in params)) {
+          for (const n in this._check) { // traverse check
+            if (this._check[n].required && !(n in params)) { // check params
               return callback(utils.missingParameterError(n));
             }
           }
@@ -114,7 +115,7 @@ export class Method { // consctructor
         if (err) return callback(err);
         if (isCallback) return callback(new Error('has been callback'));
 
-        const fn = list.shift();
+        const fn = list.shift(); // shift function from async array
         if (!fn) return callback(null, result);
 
         let isPromise = false;
@@ -148,39 +149,44 @@ export class Method { // consctructor
 
 }
 
+// proceed lazy load method?
 export class MethodManager {
 
   constructor() {
-    this._method = new Map();
+    this._method = new Map(); // what's the purpose to map the usage
   }
-
+  // entry function
   method(name) {
-    return this._method.get(name) || this._newMethod(name);
+    return this._method.get(name) || this._newMethod(name); // get means pop the response item , new method means the new one method
   }
 
   _newMethod(name) {
     let method;
-    if (name.indexOf('*') === -1) {
+    if (name.indexOf('*') === -1) { // detect function whether need await
       method = new Method(name);
-      this._method.set(name, method);
+      this._method.set(name, method); // push method to the array
     } else {
-      const pattern = escapeStringRegexp(name).replace(/\\[*]/g, '(.*?)');
-      const re = new RegExp('^' + pattern + '$');
+      const pattern = escapeStringRegexp(name).replace(/\\[*]/g, '(.*?)'); // convert regexpt
+      const re = new RegExp('^' + pattern + '$'); // build regex expression
+      /*
+      *
+      * @return {Array} async method list
+      * */
       const filterMethod = () => {
         const list = [];
-        for (const k of this._method.keys()) {
-          if (re.test(k)) {
-            list.push(this._method.get(k));
+        for (const k of this._method.keys()) { // traverse method
+          if (re.test(k)) { // detect async symbol
+            list.push(this._method.get(k)); // make the async function queue
           }
         }
-        return list;
+        return list; // async method list
       };
       method = {
         before(fn) {
-          filterMethod().forEach(m => m.before(fn));
+          filterMethod().forEach(m => m.before(fn)); // insert the function to aspect
         },
         after(fn) {
-          filterMethod().forEach(m => m.after(fn));
+          filterMethod().forEach(m => m.after(fn)); // the same as above
         },
         register(fn) {
           throw new Error('register method does not support wildcards');

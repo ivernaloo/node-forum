@@ -86,6 +86,7 @@ utils.wrapFn = function (fn, self = null) {
   }
 };
 
+// get the err locating
 utils.getCallerSourceLine = function () {
   const dir = __dirname + '/';
   const stack = (new Error()).stack.split('\n').slice(1);
@@ -99,22 +100,24 @@ utils.getCallerSourceLine = function () {
 };
 
 utils.deref = function (v) {
-  if (Array.isArray(v)) return v.slice();
-  if (v && typeof v === 'object') {
+  if (Array.isArray(v)) return v.slice();    // revert to array
+  if (v && typeof v === 'object') { // type detect
     const obj = {};
-    for (const i in v) {
-      obj[i] = v[i];
+    for (const i in v) { // traverse all keys
+      obj[i] = v[i];  // deep copy the keys
     }
-    return obj;
+    return obj; // return the object
   }
   return v;
 };
 
+// Custom Error for missing parameter error
 utils.MissingParameterError = utils.customError('missingParameterError', {code: 'missing_parameter', from: 'ProjectCore.method'});
 utils.missingParameterError = function (name) {
   return new utils.MissingParameterError(`missing parameter "${name}"`, {name: name});
 };
 
+// Custom Error for invalid parameter
 utils.InvalidParameterError = utils.customError('invalidParameterError', {code: 'invalid_parameter', from: 'ProjectCore.method'});
 utils.invalidParameterError = function (name) {
   return new utils.InvalidParameterError(`invalid parameter "${name}"`, {name: name});
