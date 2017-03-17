@@ -48,11 +48,6 @@ $.init((err) => {
        console.log('inited [env=%s]', $.env);
    }
 
-   // const item = new $.model.User({
-   //     name: `User$($.utils.date('Ymd'))`,
-   //     password: '123456',
-   //     nickname: 'test'
-   // });
-   // item.save(console.log)
+   debug("start test")
     require('./test');
 });

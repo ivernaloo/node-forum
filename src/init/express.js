@@ -1,4 +1,8 @@
 "use strict";
+/*
+* @module async loaded by $.init method
+*
+* */
 
 import path from 'path';
 import express from 'express'
@@ -24,5 +28,7 @@ module.exports = function(done){
 
     app.listen($.config.get('web.port'), (err) => {
         done(err);
-    })
+    });
+
+    done();
 };

@@ -11,7 +11,7 @@ module.exports = function (done){
     $.mongodb.on('error', console.error.bind(console, 'connection error:'));
     $.mongodb.once('open', function() {
         // we're connected!
-        console.log("mongodb connected")
+        debug("mongodb connected")
     });
 
     $.model = {};
