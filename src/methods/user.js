@@ -36,7 +36,7 @@ module.exports = function (done) {
         // return user; // subsequent versions similar remove the return value, and need return the value by yourself
     });
 
-    $.method('user.get').register(async function (params, callback) {
+    $.method('user.get').register(async function (params) {
         const query = {};
         debug(arguments[1].toString())
         if (params._id) {
@@ -49,10 +49,7 @@ module.exports = function (done) {
         } else {
             return new Error('missing parameter _id');
         }
-        $.model.User.findOne(query, function(err, res){
-            // debug("..... : ", callback)
-            return {err,res}
-        });
+        return $.model.User.findOne(query);
     });
 
     $.method('user.update').check({
