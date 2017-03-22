@@ -38,7 +38,7 @@ module.exports = function (done) {
 
     $.method('user.get').register(async function (params) {
         const query = {};
-        debug(arguments[1].toString())
+
         if (params._id) {
             query._id = params._id;
         }
@@ -57,10 +57,10 @@ module.exports = function (done) {
         name : {validate: (v) => validator.isLength(v, {min: 4, max: 20}) && /^[a-zA-z]/.test(v)},
         email: {validate: (v) => validator.isEmail(v)}
     });
-    $.method('user.update').register(async function (params, callback) {
+    $.method('user.update').register(async function (params) {
 
         const user = await $.method('user.get').call(params);
-        debug(user)
+
         if (!user) {
             return new Error('user does not exists');
         }
@@ -72,7 +72,7 @@ module.exports = function (done) {
         if (params.nickname) update.nickname = params.nickname;
         if (params.about) update.about = params.about;
 
-        $.model.User.update({_id: user._id}, {$set: update}, callback);
+        return $.model.User.update({_id: user._id}, {$set: update});
 
 
     });
