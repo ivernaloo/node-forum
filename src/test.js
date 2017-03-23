@@ -14,7 +14,7 @@ const debug = $.createDebug('test');
 // }, debug);
 
 // call passy the { name: 'hello0' } as context to the function
-$.method('user.update').call({
-    name: 'hello0',
-    nickname:  'im am bs'
-}, debug);
+// $.method('user.update').call({
+//     name: 'hello0',
+//     nickname:  'im am bs'
+// }, debug);

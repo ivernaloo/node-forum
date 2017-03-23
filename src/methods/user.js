@@ -2,13 +2,12 @@
 
 import validator from 'validator';
 import createDebug from  'debug';
-// 创建Debug参数
-$.createDebug = function (name) {
-    return createDebug('my: ' + name);
-};
-const debug = $.createDebug('method.user');
+
 
 module.exports = function (done) {
+    // 创建Debug参数
+    const debug = $.createDebug('method.user');
+    debug('method.user...');
 
     // add validator
     $.method('user.add').check({
@@ -18,22 +17,22 @@ module.exports = function (done) {
     });
 
     // register method
-    $.method('user.add').register(async function (params, callback) {
+    $.method('user.add').register(async function (params) {
         params.name = params.name.toLowerCase(); // convert the params
         {
             const user = await $.method('user.get').call({name: params.name}); // detect name whether be used
-            if (user) return callback(new Error(`user ${params.name} already exists`)); // should return null
+            if (user) throw new Error(`user ${params.name} already exists`); // should return  null
         }
         {
             const user = await $.method('user.get').call({email: params.email}); // detect email whether be used
-            if (user) return callback(new Error(`user ${params.email} already exists`));
+            if (user) throw new Error(`user ${params.email} already exists`);
         }
 
         params.password = $.utils.encryptPassword(params.password.toString());
         const user = new $.model.User(params);
-        user.save(callback);
+        user.save();
 
-        // return user; // subsequent versions similar remove the return value, and need return the value by yourself
+        return user; // subsequent versions similar remove the return value, and need return the value by yourself
     });
 
     $.method('user.get').register(async function (params) {
@@ -47,7 +46,7 @@ module.exports = function (done) {
         } else if (params.email) {
             query.email = params.email;
         } else {
-            return new Error('missing parameter _id');
+            throw new Error('missing parameter _id');
         }
         return $.model.User.findOne(query);
     });
@@ -62,7 +61,7 @@ module.exports = function (done) {
         const user = await $.method('user.get').call(params);
 
         if (!user) {
-            return new Error('user does not exists');
+            throw new Error('user does not exists');
         }
 
         const update = {};
