@@ -23,7 +23,7 @@ module.exports = function (done) {
         debug(req.body)
         const topic = await $.method('topic.add').call(req.body);
 
-        res.json({success: true, topic});
+        res.apiSuccess({topic});
         // 发布频率限制
         // {
         //   const key = `addtopic:${req.body.author}:${$.utils.date('YmdH')}`;
@@ -60,7 +60,7 @@ module.exports = function (done) {
         // const count = await $.method('topic.count').call(req.query);
         // const pageSize = Math.ceil(count / req.query.limit);
 
-        res.json({success: true, list}); // response the topic list
+        res.apiSuccess({list}); // response the topic list
         // res.apiSuccess({count, page, pageSize, list});
 
     });
@@ -86,7 +86,7 @@ module.exports = function (done) {
         //     };
         // });
 
-        res.json({success: true, topic})
+        res.apiSuccess({topic})
     });
     done();
 

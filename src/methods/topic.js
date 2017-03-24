@@ -54,10 +54,13 @@ module.exports = function (done) {
     $.method('topic.list').register(async function (params) {
 
         const query = {};
-        if (params.author) query.author = params.author;
-        if (params.tags) query.tags = {$all: params.tags}; // list all tags
+        if (params.author) query.author = params.author; // assignment the author/authorId to the query
+        if (params.tags) query.tags = {$all: params.tags}; // list all tags , also can query the specificed tags
+
 
         // query all list match condition
+        // why use the number in the configuration
+        // means show this attribute?
         const ret = $.model.Topic.find(query, {
             author         : 1,
             title          : 1,
@@ -66,14 +69,15 @@ module.exports = function (done) {
             updatedAt      : 1,
             lastCommentedAt: 1,
             pageView       : 1,
-        })
+        });
+
         // .populate({
         //     path  : 'author',
         //     model : 'User',
         //     select: 'nickname about',
         // });
-        if (params.skip) ret.skip(Number(params.skip));
-        if (params.limit) ret.limit(Number(params.limit));
+        if (params.skip) ret.skip(Number(params.skip));     // add skip in  the query, add the filter in the consequese result
+        if (params.limit) ret.limit(Number(params.limit)); // can add limit in the query
 
         return ret;
 

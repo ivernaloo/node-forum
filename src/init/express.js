@@ -44,6 +44,14 @@ module.exports = function(done){
 
     $.router = routerWrap;
 
+    // extend function on the res instance
+    app.use(function(req, res, next){
+        res.apiSuccess = function(data){
+            res.json({success: true, result: data});
+        };
+        next();// if there is no next, all logic would block here.
+    });
+
     app.use(router);
     app.use('/static', serveStatic(path.resolve(__dirname, '../../static')));
 

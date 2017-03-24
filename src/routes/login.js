@@ -15,7 +15,6 @@ module.exports = function (done) {
 
         if (!user) return next(new Error('user does not exists'));
 
-        console.log(user);
         if (!$.utils.validatePassword(req.body.password, user.password)) {
             return next(new Error('incorrect password'));
         }
@@ -23,7 +22,7 @@ module.exports = function (done) {
         req.session.user = user;
         req.session.logout_token = $.utils.randomString(20);
 
-        res.json({success: true, token: req.session.logout_token});
+        res.apiSuccess({token: req.session.logout_token});
     });
 
     $.router.get('/api/logout', async function (req, res, next) {
@@ -38,7 +37,7 @@ module.exports = function (done) {
         delete req.session.user;
         delete req.session.logout_token;
 
-        res.json({success: true});
+        res.apiSuccess({});
     });
 
     $.router.post('/api/signup', async function (req, res, next) {
@@ -47,7 +46,7 @@ module.exports = function (done) {
 
         debug("sign up : ");
         debug("sign up : ", user);
-        res.json({user : user});
+        res.apiSuccess({user : user});
 
     });
     done();
