@@ -20,9 +20,11 @@ module.exports = function (done) {
             req.body.tags = req.body.tags.split(',').map(v => v.trim()).filter(v => v); // tidy the tag format
         }
 
-        debug(req.body)
         const topic = await $.method('topic.add').call(req.body);
 
+        // debug("req.body ", req.body)
+        // debug("req.body.authorId : ", req.session.user._id)
+        // debug("topic : ", topic)
         res.apiSuccess({topic});
         // 发布频率限制
         // {
@@ -87,6 +89,80 @@ module.exports = function (done) {
         // });
 
         res.apiSuccess({topic})
+    });
+
+    // update the topic
+    $.router.post('/api/topic/item/:topic_id', $.checkTopicAuthor, async function (req, res, next) {
+
+        // if ('tags' in req.body) {
+        //     req.body.tags = req.body.tags.split(',').map(v => v.trim()).filter(v => v);
+        // }
+
+        req.body._id = req.params.topic_id;
+        const topic = await $.method('topic.update').call(req.body);
+
+        // const topic = await $.method('topic.get').call({_id: req.params.topic_id});
+
+        res.apiSuccess({topic});
+
+    });
+
+
+    // delete the topic
+    $.router.delete('/api/topic/item/:topic_id', $.checkTopicAuthor, async function (req, res, next) {
+
+        const topic = await $.method('topic.delete').call({_id: req.params.topic_id});
+
+        res.apiSuccess({topic});
+
+    });
+
+
+    $.router.post('/api/topic/item/:topic_id/comment/add', $.checkLogin, async function (req, res, next) {
+
+        req.body._id = req.params.topic_id;
+        req.body.author = req.session.user._id;
+
+        // 发布频率限制
+        {
+            const key = `addcomment:${req.body.author}:${$.utils.date('YmdH')}`;
+            const limit = 20;
+            const ok = await $.limiter.incr(key, limit);
+            if (!ok) throw new Error('out of limit');
+        }
+
+        const comment = await $.method('topic.comment.add').call(req.body);
+
+        await $.method('user.incrScore').call({_id: req.body.author, score: 1});
+
+        res.apiSuccess({comment});
+
+    });
+
+
+    $.router.post('/api/topic/item/:topic_id/comment/delete', $.checkLogin, async function (req, res, next) {
+
+        req.body._id = req.params.topic_id;
+
+        const query = {
+            _id: req.params.topic_id,
+            cid: req.body.cid,
+        };
+        const comment = await $.method('topic.comment.get').call(query);
+
+        if (comment && comment.comments && comment.comments[0]) {
+            const item = comment.comments[0];
+            if (req.session.user.isAdmin || item.author.toString() === req.session.user._id.toString()) {
+                await $.method('topic.comment.delete').call(query);
+            } else {
+                return next(new Error('access denied'));
+            }
+        } else {
+            return next(new Error('comment does not exists'));
+        }
+
+        res.apiSuccess({comment: comment.comments[0]});
+
     });
     done();
 

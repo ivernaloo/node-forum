@@ -14,8 +14,7 @@ module.exports = function (done) {
   const ObjectId = Schema.ObjectId;
 
   const Topic = new Schema({
-    author: {type: ObjectId, index: true},
-    // author: {type: ObjectId, index: true, ref: 'User'},
+    authorId: {type: ObjectId, index: true},
     title: {type: String, trim: true},
     content: {type: String},
     tags: [{type: String, index: true}],
@@ -23,7 +22,7 @@ module.exports = function (done) {
     updatedAt: {type: Date, index: true},
     lastCommentedAt: {type: Date, index: true},
     comments: [{
-      author: {type: ObjectId},
+      authorId: {type: ObjectId},
       // author: {type: ObjectId, ref: 'User'},
       content: String,
       createdAt: Date,

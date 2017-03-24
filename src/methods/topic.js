@@ -17,11 +17,17 @@ module.exports = function (done) {
 
     // register logic
     $.method('topic.add').register(async function (params) {
-        debug("params : ", params);
         const topic = new $.model.Topic(params); // get new topick
+
+        debug("params : ", params);
+        debug("topic : ", topic);
+
         topic.createdAt = new Date(); // add created timestamp
 
-        return topic.save(); // return the information
+        let a = topic.save(); // return a promise instance
+
+        debug("topic  a: ", a);
+        return a; // return the information
     });
 
 
@@ -99,31 +105,30 @@ module.exports = function (done) {
     // });
     //
     //
-    // $.method('topic.delete').check({
-    //     _id: {required: true, validate: (v) => validator.isMongoId(String(v))},
-    // });
-    // $.method('topic.delete').register(async function (params) {
-    //
-    //     return $.model.Topic.remove({_id: params._id});
-    //
-    // });
-    //
-    //
-    // $.method('topic.update').check({
-    //     _id : {required: true, validate: (v) => validator.isMongoId(String(v))},
-    //     tags: {validate: (v) => Array.isArray(v)},
-    // });
-    // $.method('topic.update').register(async function (params) {
+    $.method('topic.delete').check({
+        _id: {required: true, validate: (v) => validator.isMongoId(String(v))},
+    });
+    $.method('topic.delete').register(async function (params) {
+
+        return $.model.Topic.remove({_id: params._id});
+
+    });
     //
     //
-    //     const update = {updatedAt: new Date()};
-    //     if (params.title) update.title = params.title;
-    //     if (params.content) update.content = params.content;
-    //     if (params.tags) update.tags = params.tags;
-    //
-    //     return $.model.Topic.update({_id: params._id}, {$set: update});
-    //
-    // });
+    $.method('topic.update').check({
+        _id : {required: true, validate: (v) => validator.isMongoId(String(v))},
+        tags: {validate: (v) => Array.isArray(v)} // check the tags
+    });
+    $.method('topic.update').register(async function (params) {
+
+        const update = {updatedAt: new Date()}; // record update time
+        if (params.title) update.title = params.title;  // update the title
+        if (params.content) update.content = params.content;    // update content
+        if (params.tags) update.tags = params.tags; // update tags
+
+        return $.model.Topic.update({_id: params._id}, {$set: update}); // encapsluate the update object and assignment to the $set object
+
+    });
     //
     //
     // $.method('topic.incrPageView').check({

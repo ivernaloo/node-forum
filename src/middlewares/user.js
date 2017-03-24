@@ -22,7 +22,7 @@ module.exports = function (done) {
 
     req.topic = topic; // assignment the topic to the request
 
-    if (req.session.user.isAdmin) return next();  // check admin status
+    // if (req.session.user.isAdmin) return next();  // check admin status
     if (topic.author._id.toString() === req.session.user._id.toString()) return next(); // check the author of the topic
 
     next(new Error('access denied'));
