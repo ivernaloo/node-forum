@@ -28,12 +28,14 @@ module.exports = function(done){
     const router = express.Router();
 
     const routerWrap = {};
+
+    // handle throw exception
     ['get', 'head', 'post', 'put', 'del', 'delete'].forEach(method => {
         routerWrap[method] = function(path, ...fnList){
             fnList = fnList.map(fn => {
                 return function (req, res, next){
                     const ret = fn(req, res, next);
-                    if (ret.catch) ret.catch(next);
+                    if (ret && ret.catch) ret.catch(next); // only have the ret then response the res.catch
                 }
             });
             router[method](path, ...fnList);

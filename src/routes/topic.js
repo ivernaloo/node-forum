@@ -43,6 +43,7 @@ module.exports = function (done) {
 
     $.router.get('/api/topic/list', async function (req, res, next) {
 
+        // iterate the tags list
         if ('tags' in req.query) {
             req.query.tags = req.query.tags.split(',').map(v => v.trim()).filter(v => v);
         }
@@ -57,15 +58,15 @@ module.exports = function (done) {
         // const count = await $.method('topic.count').call(req.query);
         // const pageSize = Math.ceil(count / req.query.limit);
 
-        res.json({success: true, list});
+        res.json({success: true, list}); // response the topic list
         // res.apiSuccess({count, page, pageSize, list});
 
     });
 
-
+    // topic_id router for query the response topic id
     $.router.get('/api/topic/item/:topic_id', async function (req, res, next) {
 
-        const topic = await $.method('topic.get').call({_id: req.params.topic_id});
+        const topic = await $.method('topic.get').call({_id: req.params.topic_id}); // get the topic instance use topic.get method through mongoose
         if (!topic) return next(new Error(`topic ${req.params.topic_id} does not exists`));
 
         // const userId = req.session.user && req.session.user._id && req.session.user._id.toString();
