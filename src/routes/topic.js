@@ -7,11 +7,12 @@
  */
 
 module.exports = function (done) {
-
+    const debug = $.createDebug('routes:topic');
+    debug('initing routes topic...');
 
     $.router.post('/api/topic/add', $.checkLogin, async function (req, res, next) {
 
-        req.body.author = req.session.user._id;
+        req.body.authorId = req.session.user._id;
 
 
         // iterate the tags attribute
@@ -19,7 +20,8 @@ module.exports = function (done) {
             req.body.tags = req.body.tags.split(',').map(v => v.trim()).filter(v => v); // tidy the tag format
         }
 
-        const topic = await $.method('topic.add');
+        debug(req.body)
+        const topic = await $.method('topic.add').call(req.body);
 
         res.json({success: true, topic});
         // 发布频率限制

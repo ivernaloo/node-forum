@@ -4,18 +4,20 @@
 import validator from 'validator';
 
 module.exports = function (done) {
-
+    const debug = $.createDebug('methods:topic');
+    debug('initing methods topic...');
     // method is add proceed logic
     // add check logic
     $.method('topic.add').check({
         authorId: {required: true, validate: (v)=> validator.isMongoId(v)},
         title   : {required: true},
         content : {required: true},
-        tags    : {validate: (v)=> Array.isArray(params)}
+        tags    : {validate: (v)=> Array.isArray(v)}
     });
 
     // register logic
     $.method('topic.add').register(async function (params) {
+        debug("params : ", params);
         const topic = new $.model.Topic(params); // get new topick
         topic.createdAt = new Date(); // add created timestamp
 
